@@ -1,4 +1,4 @@
-. ../ose_config.sh 
+. ../../ose_config.sh 
 
 export success=0
 export all_hosts_count=0

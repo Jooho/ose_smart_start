@@ -6,7 +6,7 @@ do
   echo " "
   echo "Test DNS on $node"
   echo " "
-  sshpass -p $password ssh root@$node /root/validation/validation/pure_vm_check/validation_dns_lookup.sh 
+  sshpass -p $password ssh root@$node "cd /root/shell/validation/pure_vm_check; ./validation_dns_lookup.sh "
 
   read
 done
