@@ -19,7 +19,7 @@ echo "------------------------------ "
 echo "Tested URL count :  $test_url_list "
 echo "Success URL count : $success"
 if [[ $test_url_list == $success ]];then
-  echo "PASS !!"
+    echo  "** Result >> PASS !!"
 else
-  echo "FAIL ;("
+    echo "** Result >> FAIL ;("
 fi

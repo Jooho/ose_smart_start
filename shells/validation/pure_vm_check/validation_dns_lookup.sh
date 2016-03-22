@@ -19,7 +19,7 @@ echo "------------------------------ "
 echo "Tested VM count :  $all_hosts_count "
 echo "Success VM count : $success"
 if [[ $all_hosts_count == $success ]];then
-  echo "PASS !!"
+    echo "** Result >> PASS !!"
 else
-  echo "FAIL ;("
+    echo "** Result >> FAIL ;("
 fi
