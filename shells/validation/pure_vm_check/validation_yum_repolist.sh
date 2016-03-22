@@ -18,7 +18,7 @@ done
 
 echo "------------------------------ "
 echo "Needed repolist count :  $yum_repolist_count "
-echo "Attached VM count : $success"
+echo "Attached repolist count : $success"
 cat ./yum_repolist.out
 if [[ $yum_repolist_count == $success ]];then
   echo "PASS !!"
