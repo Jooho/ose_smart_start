@@ -121,11 +121,6 @@ cd ansible-ose3-install;git pull;cd ..
 fi  
 
 
-ansible-playbook -i $inventory_file ansible-ose3-install/playbooks/rhel/config.yaml -vvvvv
-
-
-
-
 
 ~/dev/git/mine/ose_smart_start
 #Install the following base packages:
