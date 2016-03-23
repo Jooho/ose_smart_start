@@ -1,3 +1,5 @@
+. ../ose_config.sh
+
 #Install the following base packages:
 yum install wget git net-tools bind-utils iptables-services bridge-utils bash-completion nfs-utils -y
 
@@ -7,7 +9,8 @@ yum update -y
 # if docker is not installed, it will install it.
 yum install docker -y
 
-if [[ $(hostname) == ${ansible_operation_vm}]]
+echo  $(hostname) == ${ansible_operation_vm} 
+if [[ $(hostname) == ${ansible_operation_vm} ]]
 then
     #Install the following package, which provides OpenShift utilities and pulls in other tools required by the quick and
     #advanced installation methods, such as Ansible and related configuration files:
@@ -20,7 +23,7 @@ then
     read copy_pub_file_with_one_password
     
     #ssh-copy-id to each hosts
-    if [ $copy_pub_file_with_one_password == "y" ]
+    if [[ $copy_pub_file_with_one_password == "y" ]]
     then
        echo -e "Type password : \c"
        read password
@@ -43,25 +46,31 @@ then
 #Docker storage configure
 # ansible role : ose_docker_configure
 
-cat << EOF > 
+cat << EOF > /etc/sysconfig/docker-storage-setup
 DEVS=/dev/${docker_storage_dev}
 VG=docker-vg
 EOF
-done;
 
-docker-storage
+docker-storage-setup
 
 fi
 
 #Common
-# docker log max 
-sed -e "s/^OPTIONS/OPTIONS=\'--selinux-enabled --log-opt max-size=${docker_log_max_size} --log-opt max-file=${docker_log_max_file}" -i /etc/sysconfig/docker
+#docker log max 
+echo "add log configuration to docker"
+log_config_exit=$(grep log-opt /etc/sysconfig/docker|wc -l)
+if [[ $log_config_exit == 0 ]]; then
+    sed -e "s/^OPTIONS=/OPTIONS=--log-opt max-size=${docker_log_max_size} --log-opt max-file=${docker_log_max_file} /g" -i /etc/sysconfig/docker
+fi
+
 
 #If Docker has not yet been started on the host, enable and start the service:
 
+echo "Stop Docker"
 systemctl enable docker
 systemctl stop docker
 rm -rf /var/lib/docker/*
-systemctl restart docker
+systemctl start docker
 
-i
+echo "Start Docker"
+ps -ef|grep docker

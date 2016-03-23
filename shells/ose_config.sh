@@ -5,7 +5,7 @@ export all_ip="192.168.200.100 192.168.200.101 192.168.200.102 192.168.200.104 1
 
 export ansible_operation_vm="master1.example.com"
 export etcd_is_installed_on_master="true"
-export docker_log_max_files="3"
+export docker_log_max_file="3"
 export docker_log_max_size="300m"
 export docker_storage_dev="vda"
 export nfs_server="infra.example.com"
