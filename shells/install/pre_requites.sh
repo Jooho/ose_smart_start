@@ -58,8 +58,8 @@ fi
 #Common
 #docker log max 
 echo "add log configuration to docker"
-log_config_exit=$(grep log-opt /etc/sysconfig/docker|wc -l)
-if [[ $log_config_exit == 0 ]]; then
+log_config_exist=$(grep log-opt /etc/sysconfig/docker|wc -l)
+if [[ $log_config_exist == 0 ]]; then
     sed -e "s/^OPTIONS=/OPTIONS=--log-opt max-size=${docker_log_max_size} --log-opt max-file=${docker_log_max_file} /g" -i /etc/sysconfig/docker
 fi
 

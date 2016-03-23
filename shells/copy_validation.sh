@@ -6,7 +6,7 @@ tar -cvf ../validation.tar ./
 for node in $all_hosts
 do
   echo " "
-  echo "Test DNS on $node"
+  echo "Copy validation on $node"
   echo " "
 #  sshpass -p $password ssh  root@$node "rm -rf $validation_path"
   sshpass -p $password ssh  root@$node "mkdir -p $validation_path"
