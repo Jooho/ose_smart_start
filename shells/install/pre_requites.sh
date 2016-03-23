@@ -1,15 +1,20 @@
 . ../ose_config.sh
 
-#Install the following base packages:
-yum install wget git net-tools bind-utils iptables-services bridge-utils bash-completion nfs-utils -y
+echo "Do you want to start from installing packages and updating system?(y/n)"
+read do_install_package
 
-#Update the system to the latest packages:
-yum update -y
+if [[ do_install_package == y ]]; then
+ #Install the following base packages:
+ yum install wget git net-tools bind-utils iptables-services bridge-utils bash-completion nfs-utils -y
 
-# if docker is not installed, it will install it.
-yum install docker -y
+ #Update the system to the latest packages:
+ yum update -y
 
-echo  $(hostname) == ${ansible_operation_vm} 
+ # if docker is not installed, it will install it.
+ yum install docker -y
+fi
+
+#echo  $(hostname) == ${ansible_operation_vm} 
 if [[ $(hostname) == ${ansible_operation_vm} ]]
 then
     #Install the following package, which provides OpenShift utilities and pulls in other tools required by the quick and

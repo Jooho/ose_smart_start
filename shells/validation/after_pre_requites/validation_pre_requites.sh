@@ -23,8 +23,8 @@ then
    do
      all_hosts_count=$((all_hosts_count + 1))
      #echo "sshpass -p $password ssh root@\$host 'echo `hostname` can be logined from ${ansible_operation_vm}| wc -l'"
-     #sshpass -p $password ssh -q root@$host 'echo `hostname` can be logined from ' ${ansible_operation_vm}
-     temp_login_result=$(sshpass -p $password ssh root@$host 'echo `hostname` can be logined from ${ansible_operation_vm}| wc -l')
+     ssh -q root@$host 'echo `hostname` can be logined from ' ${ansible_operation_vm}
+     temp_login_result=$( ssh root@$host 'echo `hostname` can be logined from ${ansible_operation_vm}| wc -l')
      
      login_count=$((login_count + temp_login_result))
    done
