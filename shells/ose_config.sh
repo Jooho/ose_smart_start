@@ -4,6 +4,7 @@ export all_hosts="master1.example.com master2.example.com master3.example.com no
 export all_ip="192.168.200.100 192.168.200.101 192.168.200.102 192.168.200.104 192.168.200.105 192.168.200.106 192.168.200.107 192.168.200.108 192.168.200.108"
 export node_prefix="node"
 export master_prefix="master"
+export etcd_prefix="etcd"
 
 export ansible_operation_vm="master1.example.com"
 export etcd_is_installed_on_master="true"
