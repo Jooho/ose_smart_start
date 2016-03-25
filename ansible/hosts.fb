@@ -104,7 +104,7 @@ openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 
 # openshift_master_cluster_hostname must resolve to the load balancer
 # or to one or all of the masters defined in the inventory if no load
 # balancer is present.
-#openshift_master_cluster_method=native
+openshift_master_cluster_method=native
 openshift_master_cluster_hostname=lb.example.com
 openshift_master_cluster_public_hostname=lb.example.com
 
