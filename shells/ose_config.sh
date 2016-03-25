@@ -14,3 +14,6 @@ export docker_storage_dev="vda"
 export nfs_server="infra.example.com"
 export nfs_mount_point="exports"
 export password="redhat"
+
+#docker image version
+export image_version=v3.1.1.6
