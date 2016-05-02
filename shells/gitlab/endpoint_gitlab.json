@@ -1,0 +1,10 @@
+  kind: "Endpoints"
+  apiVersion: "v1"
+  metadata:
+    name: "external-gitlab-service" 
+  subsets: 
+    - addresses:
+        - IP: "192.168.200.108"
+      ports:
+        - port: 443
+          name: "external-gitlab"

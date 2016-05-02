@@ -1,0 +1,12 @@
+  kind: "Service"
+  apiVersion: "v1"
+  metadata:
+    name: "external-gitlab-service"
+  spec:
+    ports:
+      - name: "external-gitlab"
+        protocol: "TCP"
+        port: 80
+        targetPort: 80
+        nodePort: 0
+  selector: {} 		

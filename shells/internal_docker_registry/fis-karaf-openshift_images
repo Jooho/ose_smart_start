@@ -1,0 +1,5 @@
+1.0  registry.access.redhat.com/jboss-fuse-6/fis-karaf-openshift:1.0 b30a21202a6ef04d0d30458e9d8b9abcb7fe2e34583fa060f749c5b5b43a590d
+1.0-10  ago registry.access.redhat.com/jboss-fuse-6/fis-karaf-openshift:1.0-10
+1.0-11  ago registry.access.redhat.com/jboss-fuse-6/fis-karaf-openshift:1.0-11
+1.0-9  ago registry.access.redhat.com/jboss-fuse-6/fis-karaf-openshift:1.0-9
+latest  ago registry.access.redhat.com/jboss-fuse-6/fis-karaf-openshift:latest
