@@ -1,4 +1,4 @@
-. ../ose_config.sh
+. ../../config/ose_config.sh
 
 if [[ $(hostname) == ${ansible_operation_vm} ]]
 then

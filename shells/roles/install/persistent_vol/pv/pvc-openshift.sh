@@ -41,7 +41,7 @@ fi
 
 for c in $(seq -f "%0${#PV_NAME_PAD}g" ${PV_RANGE_START} ${PV_RANGE_END})
 do
-  VOL_NAME=${PV_NAME_PREFIX}${c}
+  VOL_NAME=${PVC_NAME_PREFIX}${c}
   pvc_exist=$(oc get pvc |grep  ${VOL_NAME} |wc -l)
 
  if [[ $pvc_exist -eq 1 ]]; then

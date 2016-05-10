@@ -24,6 +24,7 @@ export PV_NAME_PAD=0000 # pv0001
 export PV_RANGE_START=1
 export PV_RANGE_END=1
 export PV_SCRIPT_PATH=./test_pv_script
+export PVC_NAME_PREFIX=pvc
 export PVC_ACCESS_MODE=ReadWriteMany
 export PVC_SCRIPT_PATH=./test_pvc_script
 

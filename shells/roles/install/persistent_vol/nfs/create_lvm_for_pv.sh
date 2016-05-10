@@ -85,6 +85,7 @@ echo ""
 echo "Do you want to mount all?(y/n)"
 read mount
 if [[ $mount == y ]]; then
+  sshpass -p $password ssh root@$NFS_SERVER " chmod 777 -R ${NFS_MOUNT_POINT} "
   sshpass -p $password ssh root@$NFS_SERVER " mount -a "
 fi
 
