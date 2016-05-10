@@ -1,4 +1,4 @@
-. ../nfs/nfs-config.sh
+. ../../../../config/ose_config.sh
 
 #Definition
 #VOL_SIZE - The size of pv volume
@@ -24,8 +24,8 @@ export PV_NAME_PAD=0000 # pv0001
 export PV_RANGE_START=1
 export PV_RANGE_END=1
 export PV_SCRIPT_PATH=./test_pv_script
-export NFS_MOUNT_PATH=/exports/ose
-export NFS_SERVER=infra.example.com
+export PVC_ACCESS_MODE=ReadWriteMany
+export PVC_SCRIPT_PATH=./test_pvc_script
 
 #For lvm name (Properties are from ../nfs/nfs-config.sh but you can overwrite it)
 #export LVM_NAME_SIZE_PAD=000

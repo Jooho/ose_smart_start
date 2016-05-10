@@ -1,4 +1,4 @@
-. ../ose_config.sh
+. ../../config//ose_config.sh
 
 #Download base images 
 infra_nodes=$(oc get node|grep infra|awk '{print $1}')

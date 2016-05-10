@@ -1,4 +1,4 @@
-. ./nfs-config.sh
+. ../../../../config/ose_config.sh
 
 export exist_lvm
 export created_lvm
@@ -20,7 +20,7 @@ cat << EOF
    # fdisk -cu /dev/${NFS_BLOCK_DEV}
      =>  n
      =>  e (extended)
-     => Enter , Enter  (means that it selects whole volume)
+     => Enter, Enter , Enter  (means that it selects whole volume)
      => n
      => l
      => Enter , Enter  (means that it select whole volume)
@@ -33,17 +33,18 @@ exit 0
 
 else
    echo "Create pv : /dev/${NFS_BLOCK_DEV}5"
-   pv_exist=$(pvs|grep /dev/${NFS_BLOCK_DEV}5|wc -l)
+   pv_exist=$(sshpass -p $password ssh root@$NFS_SERVER "pvs|grep /dev/${NFS_BLOCK_DEV}5|wc -l")
    if [[ $pv_exist == "0" ]]; then
-      pvcreate /dev/${NFS_BLOCK_DEV}5
+      echo "sshpass -p $password ssh root@$NFS_SERVER \"pvcreate /dev/${NFS_BLOCK_DEV}5\""
+      sshpass -p $password ssh root@$NFS_SERVER "pvcreate /dev/${NFS_BLOCK_DEV}5"
    else
       echo "/dev/${NFS_BLOCK_DEV}5 exist"
    fi
 
    echo "Create vg : ose-${NFS_SERVER_TAG}-vg"
-   vg_exist=$(vgs|grep ose-${NFS_SERVER_TAG}-vg|wc -l)
+   vg_exist=$(sshpass -p $password ssh root@$NFS_SERVER "vgs|grep ose-${NFS_SERVER_TAG}-vg|wc -l")
    if [[ $vg_exist == 0 ]]; then
-       vgcreate -s 16M ose-${NFS_SERVER_TAG}-vg /dev/${NFS_BLOCK_DEV}5   #(16M==> chunk size)
+       sshpass -p $password ssh root@$NFS_SERVER "vgcreate -s 16M ose-${NFS_SERVER_TAG}-vg /dev/${NFS_BLOCK_DEV}5"   #(16M==> chunk size)
    else
        echo "ose-${NFS_SERVER_TAG}-vg exist"
    fi
@@ -55,12 +56,12 @@ do
    FORMATTED_LVM_SIZE=$(seq -f "%0${#LVM_NAME_SIZE_PAD}g" ${LVM_VOL_SIZE} ${LVM_VOL_SIZE})
    LVM_VOL_NAME="ose-${NFS_SERVER_TAG}-${LVM_NAME_PREFIX}${FORMATTED_LVM_SIZE}g$c"
 
-   check_lvm_exist=$(lvs |grep ${LVM_VOL_NAME}|wc -l)
-   check_lvm_folder_exist=$(ls ${NFS_MOUNT_PATH}| grep ${LVM_VOL_NAME} |wc -l)
+   check_lvm_exist=$(sshpass -p $password ssh root@$NFS_SERVER "lvs |grep ${LVM_VOL_NAME}|wc -l")
+   check_lvm_folder_exist=$(sshpass -p $password ssh root@$NFS_SERVER "ls ${NFS_MOUNT_POINT}| grep ${LVM_VOL_NAME} |wc -l")
   
    if [[ $check_lvm_exist == 0 ]]; then
-       lvcreate -n ${LVM_VOL_NAME} -L ${LVM_VOL_SIZE}G ose-${NFS_SERVER_TAG}-vg
-       mkfs.xfs /dev/ose-${NFS_SERVER_TAG}-vg/${LVM_VOL_NAME}
+       sshpass -p $password ssh root@$NFS_SERVER "lvcreate -n ${LVM_VOL_NAME} -L ${LVM_VOL_SIZE}G ose-${NFS_SERVER_TAG}-vg"
+       sshpass -p $password ssh root@$NFS_SERVER "mkfs.xfs /dev/ose-${NFS_SERVER_TAG}-vg/${LVM_VOL_NAME}"
 
        created_lvm=("${created_lvm[@]}" "${LVM_VOL_NAME}")
    else
@@ -69,22 +70,22 @@ do
    fi
   
    if [[ $check_lvm_folder_exist == 0 ]]; then
-       echo "create folder : ${NFS_MOUNT_PATH}/${LVM_VOL_NAME}"
-       mkdir -p ${NFS_MOUNT_PATH}/${LVM_VOL_NAME} 
+       echo "create folder : ${NFS_MOUNT_POINT}/${LVM_VOL_NAME}"
+      sshpass -p $password ssh root@$NFS_SERVER " mkdir -p ${NFS_MOUNT_POINT}/${LVM_VOL_NAME} "
        created_nfs_folder=("${created_nfs_folder[@]}" "${LVM_VOL_NAME}")
    else
-       echo "${NFS_MOUNT_PATH}/${LVM_VOL_NAME} exist"
+       echo "${NFS_MOUNT_POINT}/${LVM_VOL_NAME} exist"
        exist_nfs_folder=("${exist_nfs_folder[@]}" "${LVM_VOL_NAME}")
    fi
   
-   echo "/dev/ose-${NFS_SERVER_TAG}-vg/${LVM_VOL_NAME} ${NFS_MOUNT_PATH}/${LVM_VOL_NAME}  xfs defaults 0 0" >> /etc/fstab
+   sshpass -p $password ssh root@$NFS_SERVER "echo \"/dev/ose-${NFS_SERVER_TAG}-vg/${LVM_VOL_NAME} ${NFS_MOUNT_POINT}/${LVM_VOL_NAME}  xfs defaults 0 0\" >> /etc/fstab"
 done
 
 echo ""
 echo "Do you want to mount all?(y/n)"
 read mount
 if [[ $mount == y ]]; then
-   mount -a 
+  sshpass -p $password ssh root@$NFS_SERVER " mount -a "
 fi
 
 echo ""
@@ -103,4 +104,3 @@ echo ""
 echo Created nfs folder  :
 echo ${created_nfs_folder[@]}
 
-df

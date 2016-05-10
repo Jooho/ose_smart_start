@@ -16,7 +16,7 @@ cat << EOF > ${PV_SCRIPT_PATH}/${VOL_NAME}
        accessModes:
          - "ReadWriteMany"
        nfs:
-         path: "${NFS_MOUNT_PATH}/${LVM_VOL_NAME}"
+         path: "${NFS_MOUNT_POINT}/${LVM_VOL_NAME}"
          server: "${NFS_SERVER}"
          persistentVolumeReclaimPolicy: "Recycle"
 EOF

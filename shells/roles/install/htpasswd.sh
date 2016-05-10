@@ -6,10 +6,10 @@ echo ""
 for host in $all_hosts
 do
   if [[ $host =~ ${master_prefix} ]]; then
-    htpasswd -b /etc/origin/master/htpasswd joe redhat
+    sshpass -p $password ssh root@$host "htpasswd -b /etc/origin/master/htpasswd joe redhat"
     echo "joe user is added (pw:redhat)"
     echo ""
-    systemctl restart atomic-openshift-master-api
+    sshpass -p $password ssh root@$host "systemctl restart atomic-openshift-master-api"
     echo "On $host, atomic-openshift-master-api restarted"
   fi
 done

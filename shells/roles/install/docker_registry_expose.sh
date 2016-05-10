@@ -16,3 +16,4 @@ spec:
 EOF
 
 oc create -f ./docker_registry_route.yaml
+rm -rf docker_registry_route.yaml

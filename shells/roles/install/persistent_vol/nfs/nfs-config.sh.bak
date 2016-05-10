@@ -21,12 +21,12 @@
 #     LVM_VOL_SIZE should be 10  (without unit 'g')
 
 
-export LVM_VOL_SIZE="4"
+export LVM_VOL_SIZE="10""
 export LVM_NAME_PREFIX=pv
 export LVM_NAME_SIZE_PAD=0000 # 001
 export LVM_NAME_RANGE_PAD=000 # pv0010
 export LVM_RANGE_START=1
 export LVM_RANGE_END=2
-export NFS_MOUNT_PATH=/exports/ose
+export NFS_MOUNT_POINT=/exports/nfs
 export NFS_SERVER_TAG=infra
 export NFS_BLOCK_DEV=sdb

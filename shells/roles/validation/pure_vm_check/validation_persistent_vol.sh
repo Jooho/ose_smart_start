@@ -1,8 +1,8 @@
 # NFS Connectivity
 . ../../ose_config.sh
 
-echo "* Checking connectivity of NFS server($nfs_server)"
-connectivity_result=$(showmount -e $nfs_server| grep -i "unknown host"| wc -l)
+echo "* Checking connectivity of NFS server($NFS_SERVER)"
+connectivity_result=$(showmount -e $NFS_SERVER| grep -i "unknown host"| wc -l)
 
 if [[ $connectivity_result != 0 ]]; then
   echo "$(hostname) is denied to access NFS server"
@@ -11,36 +11,36 @@ else
 
   echo ""
   # Mount nfs for testing
-  echo "*Create folder 'test_nfs_mount_point' "
-  mkdir ./test_nfs_mount_point 
+  echo "*Create folder 'test_NFS_MOUNT_POINT' "
+  mkdir ./test_NFS_MOUNT_POINT 
 
-  echo "*Mount test folder mount ${nfs_mount_point} to ./test_nfs_mount_point"
-  mount -t nfs infra.example.com:${nfs_mount_point} ./test_nfs_mount_point
+  echo "*Mount test folder mount ${NFS_MOUNT_POINT} to ./test_NFS_MOUNT_POINT"
+  mount -t nfs infra.example.com:${NFS_MOUNT_POINT} ./test_NFS_MOUNT_POINT
   # Check if folder user is root
   echo ""
-  user_group_test_result=$(ls -al ./test_nfs_mount_point |grep -v root| wc -l)
+  user_group_test_result=$(ls -al ./test_NFS_MOUNT_POINT |grep -v root| wc -l)
   if [[ ${user_group_test_result} != "2" ]]; then
     echo "===> BAD!! user/group should be 'root'"
-    ls -al ./test_nfs_mount_point
+    ls -al ./test_NFS_MOUNT_POINT
   else
-    echo "===> GOOD!! user/group of all folders under ${nfs_mount_point} are 'root'"
+    echo "===> GOOD!! user/group of all folders under ${NFS_MOUNT_POINT} are 'root'"
   fi
 
   # Check if folder mode is 777
-  execute_mode_test_result=$(ls -al ./test_nfs_mount_point | grep -v rwxrwxrwx| wc -l)
+  execute_mode_test_result=$(ls -al ./test_NFS_MOUNT_POINT | grep -v rwxrwxrwx| wc -l)
   if [[ ${execute_mode_test_result} != "3" ]]; then
     echo "===> BAD!! execute mode should be '0777'"
-    ls -al ./test_nfs_mount_point
+    ls -al ./test_NFS_MOUNT_POINT
   else
-    echo "===> GOOD!! execute mode of all folders under ${nfs_mount_point} are '0777'"
+    echo "===> GOOD!! execute mode of all folders under ${NFS_MOUNT_POINT} are '0777'"
   fi
 
 
   echo ""
-  echo "*Unmount test_nfs_mount_point"
-  umount ./test_nfs_mount_point
-  echo "*Delete test_nfs_mount_point"
-  rm -rf ./test_nfs_mount_point
+  echo "*Unmount test_NFS_MOUNT_POINT"
+  umount ./test_NFS_MOUNT_POINT
+  echo "*Delete test_NFS_MOUNT_POINT"
+  rm -rf ./test_NFS_MOUNT_POINT
 
   # SELINUX (setsebool -P virt_use_nfs 1)
   selinux_test_result=$(getsebool virt_use_nfs|grep on|wc -l)
