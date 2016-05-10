@@ -1,4 +1,5 @@
 . ./ose_config.sh
+
 password=redhat
 echo $all_ip
 for node in $all_hosts
