@@ -78,7 +78,7 @@ do
        exist_nfs_folder=("${exist_nfs_folder[@]}" "${LVM_VOL_NAME}")
    fi
   
-   sshpass -p $password ssh root@$NFS_SERVER "echo \"/dev/ose-${NFS_SERVER_TAG}-vg/${LVM_VOL_NAME} ${NFS_MOUNT_POINT}/${LVM_VOL_NAME}  xfs defaults 0 0\" >> /etc/fstab"
+   sshpass -p $password ssh root@$NFS_SERVER "echo \"/dev/ose-${NFS_SERVER_TAG}-vg/${LVM_VOL_NAME} ${NFS_MOUNT_POINT}/${LVM_VOL_NAME}  xfs defaults,unconfined_u:object_r:admin_home_t:s0 0 0\" >> /etc/fstab"
 done
 
 echo ""

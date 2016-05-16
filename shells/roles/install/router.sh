@@ -1,4 +1,4 @@
-. ../ose_config.sh
+. ../../config/ose_config.sh
 
 CA=/etc/origin/master
 subdomain=$(grep subdomain /etc/origin/master/master-config.yaml | grep -v ^# |cut -d":" -f2|sed 's/"//g'| xargs)

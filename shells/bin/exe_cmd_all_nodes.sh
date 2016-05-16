@@ -1,4 +1,4 @@
-. ./ose_config.sh
+. ../config/ose_config.sh
 
 password=redhat
 echo $all_ip

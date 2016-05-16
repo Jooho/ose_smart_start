@@ -13,6 +13,7 @@ export etcd_is_installed_on_master="true"
 export docker_log_max_file="3"
 export docker_log_max_size="300m"
 export docker_storage_dev="vda"
+export docker_registry_route_url=registry.cloudapps.example.com
 
 #docker image version
 export image_version=v3.1.1.6
@@ -45,7 +46,7 @@ export LVM_NAME_SIZE_PAD=0000 # 001
 export LVM_NAME_RANGE_PAD=000 # pv0010
 export LVM_RANGE_START=1
 export LVM_RANGE_END=1
-export NFS_MOUNT_POINT=/exports/nfs
+export NFS_MOUNT_POINT=/exports/ose
 export NFS_SERVER_TAG=infra
 export NFS_BLOCK_DEV=sdb
 export NFS_SERVER="infra.example.com"
