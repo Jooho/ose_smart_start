@@ -1,4 +1,4 @@
-. ./pv-config.sh
+. ../../../../config/ose_config.sh
 
 # This method create pv yaml script
 function create_pv_script(){

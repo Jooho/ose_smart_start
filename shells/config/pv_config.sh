@@ -1,5 +1,3 @@
-. ../../../../config/ose_config.sh
-
 #Definition
 #VOL_SIZE - The size of pv volume
 #PV_NAME_PREFIX - This is for pv name (refer following example)
