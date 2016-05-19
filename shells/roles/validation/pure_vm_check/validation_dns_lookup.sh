@@ -1,4 +1,10 @@
-. ../../ose_config.sh 
+# Check if essencial hostnames can be resolved by DNS
+# all host domeain name
+# router *.${env}.${subdomain}
+# public_cluster_master_url (ex, api.${env}.${subdomain} ) 
+# cluster_master_url (ex, aoappd-cluster.${env}.${subdomain}) 
+
+. ../../../config/ose_config.sh 
 
 export success=0
 export all_hosts_count=0

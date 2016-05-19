@@ -1,6 +1,4 @@
-. ../../ose_config.sh 
-
-yum_repolist="rhel-7-server-extras-rpms rhel-7-server-ose-3.1-rpms rhel-7-server-rpms rhel-ha-for-rhel-7-server-rpms"
+. ../../../config/ose_config.sh 
 
 export success=0
 export yum_repolist_count=0

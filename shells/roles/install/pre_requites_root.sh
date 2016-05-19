@@ -1,4 +1,4 @@
-. ../ose_config.sh
+. ../../config/ose_config.sh
 
 echo "Do you want to start from installing packages and updating system?(y/n)"
 read do_install_package

@@ -1,12 +1,62 @@
-# Essecial package : nfs-util
+# Essecial package : nfs-util 
+function validate_config(){
+if [[ ! -e ${host_file} ]]; then
+	./generate_hosts_file.sh $subdomain $host_file 
+	echo "INFO: ${host_file} does not exist so ./generate_hosts_file.sh is executed"
+fi
+
+if [[ -e ${host_file} ]]; then
+
+	while read host 
+	do
+		if [[ $(echo $host |grep ^#|wc -l) -eq 1 ]]; then
+			continue;
+		elif [[ $(echo $host|awk -F" " '{print $2}' | grep -v ^$|wc -l) -eq 0 ]]; then
+			echo "Error: You should add ip for ${host} in ${host_file}"
+			exit 9
+		fi
+	done < ./${host_file}
+
+fi
+
+if [[ ! -e ../../ansible/ansible_hosts-${ose_version}.${env} ]]; then
+	echo "../../ansible/ansible_hosts-${ose_version}.${env} does not exist. Process stopped"
+	exit 2
+else
+	echo "============================="
+	echo "Pass configuration validation"
+	echo "============================="
+	echo ""
+fi
+};
+
+
+export ose_version="3.1"
+export env="smart"
+export ansible_hosts="ansible_hosts-${ose_version}.${env}"
+export host_file="hosts.${env}"
+export subdomain=$(grep subdomain ../../ansible/${ansible_hosts}|grep -v ^#|cut -d= -f2)
+
+validate_config
+
+export all_hosts=$(cat ${host_file} | awk '{ print $1 }' | tr '\n' ' ')
+export all_ip=$(cat ${host_file} | awk '{ print $2 }' | tr '\n' ' ')
+
+# registry.${env}.${subdomain}
+
+#Debug log
+#echo $all_hosts
+#echo $all_ip
 
 export password="redhat"
-export all_hosts="master1.example.com master2.example.com master3.example.com node1.example.com node2.example.com node3.example.com node4.example.com node5.example.com lb.example.com "
-export all_ip="192.168.200.100 192.168.200.101 192.168.200.102 192.168.200.104 192.168.200.105 192.168.200.106 192.168.200.107 192.168.200.108 192.168.200.108"
 export node_prefix="node"
 export master_prefix="master"
 export etcd_prefix="etcd"
 export infra_selector="region=infra"
+export yum_repolist="rhel-7-server-extras-rpms rhel-7-server-ose-3.1-rpms rhel-7-server-rpms rhel-ha-for-rhel-7-server-rpms"¬
+
+
+
 
 export ansible_operation_vm="master1.example.com"
 export etcd_is_installed_on_master="true"

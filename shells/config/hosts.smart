@@ -1,0 +1,9 @@
+master1.example.com 192.168.200.100
+master2.example.com 192.168.200.101
+master3.example.com 192.168.200.102
+node1.example.com 192.168.200.103
+node2.example.com 192.168.200.104
+node3.example.com 192.168.200.105
+node4.example.com 192.168.200.106
+node5.example.com 192.168.200.107
+lb.example.com 192.168.200.108
