@@ -1,5 +1,5 @@
 # Check if essencial hostnames can be resolved by DNS
-# all host domeain name
+# all host domain names
 # router *.${env}.${subdomain}
 # public_cluster_master_url (ex, api.${env}.${subdomain} ) 
 # cluster_master_url (ex, aoappd-cluster.${env}.${subdomain}) 
@@ -8,6 +8,8 @@
 
 export success=0
 export all_hosts_count=0
+
+#Check all host domain nanmes
 for host in $all_hosts
 do
   all_hosts_count=$((all_hosts_count + 1))
@@ -21,6 +23,8 @@ do
   done
 done
 
+# Check router domain
+temp_result=$(dig ${subdomain}|grep $
 echo "------------------------------ "
 echo "Tested VM count :  $all_hosts_count "
 echo "Success VM count : $success"

@@ -36,17 +36,33 @@ export env="smart"
 export ansible_hosts="ansible_hosts-${ose_version}.${env}"
 export host_file="hosts.${env}"
 export subdomain=$(grep subdomain ../../ansible/${ansible_hosts}|grep -v ^#|cut -d= -f2)
+if [[ z${env} != z ]]; then
+	subdomain=${env}.${subdomain}
+fi
+export openshift_master_cluster_public_hostname=$(grep openshift_master_cluster_public_hostname ../../ansible/${ansible_hosts}|grep -v ^#|cut -d= -f2)
+export openshift_master_cluster_hostname=$(grep openshift_master_cluster_hostname ../../ansible/${ansible_hosts}|grep -v ^#|cut -d= -f2)
+export all_hosts
+export all_ip
 
 validate_config
 
-export all_hosts=$(cat ${host_file} | awk '{ print $1 }' | tr '\n' ' ')
-export all_ip=$(cat ${host_file} | awk '{ print $2 }' | tr '\n' ' ')
+# Look for number of the first # character from hosts_${env}. After the #, it might have public cluster master url,
+# cluster master url or subdomain url
+line=$(cat hosts.smart |grep ^# -n |cut -d: -f1)
+
+if [[ $line == "" ]];then
+	all_hosts=$(cat ${host_file} | awk '{ print $1 }' | tr '\n' ' ')
+	all_ip=$(cat ${host_file} | awk '{ print $2 }' | tr '\n' ' ')
+else
+	all_hosts=$(cat ${host_file} | awk '{ print $1 }' |sed "${line},100d" | tr '\n' ' ')
+	all_ip=$(cat ${host_file} | awk '{ print $2 }' | sed "${line},100d" | tr '\n' ' ')
+fi
 
 # registry.${env}.${subdomain}
 
 #Debug log
-#echo $all_hosts
-#echo $all_ip
+echo $all_hosts
+echo $all_ip
 
 export password="redhat"
 export node_prefix="node"
