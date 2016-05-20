@@ -1,4 +1,4 @@
-. ../../ose_config.sh
+. $CONFIG_PATH//ose_config.sh
 
 #Check if the following base packages installed:
 export base_packages="wget git net-tools bind-utils iptables-services bridge-utils bash-completion nfs-utils docker"

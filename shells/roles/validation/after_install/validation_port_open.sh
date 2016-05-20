@@ -1,4 +1,4 @@
-. ../../ose_config.sh
+. $CONFIG_PATH/ose_config.sh
 
 
 if [[ $(hostname) =~ ${master_prefix} ]]; then
@@ -7,19 +7,23 @@ if [[ $(hostname) =~ ${master_prefix} ]]; then
    do
      if [[ $host =~ ${node_prefix} ]]; then
        #Master to Node
+       echo ""
+       echo "================================================"
        echo "Check if ports are opened from Master to Node"
+       echo "================================================"
 
        echo "From $(hostname) To $host : 4789(UDP)"
-       deny_master_node_4789=$(echo grep "No route to host" |  nc -i1 -u $host 4789 | wc -l)
-       if [[ $deny_master_node_4789 == 0 ]]; then
+       deny_master_node_4789=$(nc -i1 -u $host 4789 2>&1 |grep "Idle timeout expired"| wc -l)
+       if [[ $deny_master_node_4789 == 1 ]]; then
           echo "==> Result : PASS !!"
        else
           echo "==> Result : Fail ;("
        fi 
-
+        
+       echo ""
        echo "From $(hostname) To $host : 10250(TCP)"
-       deny_master_node_10250=$(echo grep "No route to host" |  nc -i1 $host 10250 | wc -l)
-       if [[ $deny_master_node_10250 == 0 ]]; then
+       deny_master_node_10250=$(nc -i1 $host 10250 2>&1 |grep "Idle timeout expired"| wc -l)
+       if [[ $deny_master_node_10250 == 1 ]]; then
           echo "==> Result : PASS !!"
        else
           echo "==> Result : Fail ;("
@@ -27,10 +31,12 @@ if [[ $(hostname) =~ ${master_prefix} ]]; then
      elif [[ $host =~ ${master_prefix} && $host != $(hostname) ]]; then
        echo ""
        #Master to Master
+       echo "================================================"
        echo "Check if ports are opened from Master to Master"
+       echo "================================================"
        echo "From $(hostname) To $host : 4789(UDP)"
-       deny_master_master_4789=$(echo grep "No route to host" |  nc -i1 -u $host 4789 | wc -l)
-       if [[ $deny_master_master_4789 == 0 ]]; then
+       deny_master_master_4789=$(nc -i1 -u $host 4789 2>&1|grep "Idle timeout expired"| wc -l)
+       if [[ $deny_master_master_4789 == 1 ]]; then
           echo "==> Result : PASS !!"
        else
           echo "==> Result : Fail ;("
@@ -38,8 +44,8 @@ if [[ $(hostname) =~ ${master_prefix} ]]; then
        
        echo ""
        echo "From $(hostname) To $host : 53(TCP)"
-       deny_master_master_53=$(echo grep "No route to host" |  nc -i1 $host 53 | wc -l)
-       if [[ $deny_master_master_53 == 0 ]]; then
+       deny_master_master_53=$(nc -i1 $host 53 2>&1 |grep "Idle timeout expired"| wc -l)
+       if [[ $deny_master_master_53 == 1 ]]; then
           echo "==> Result : PASS !!"
        else
           echo "==> Result : Fail ;("
@@ -47,8 +53,8 @@ if [[ $(hostname) =~ ${master_prefix} ]]; then
  
        echo ""
        echo "From $(hostname) To $host : 2379(TCP)"
-       deny_master_master_2379=$(echo grep "No route to host" |  nc -i1 $host 2379 | wc -l)
-       if [[ $deny_master_master_2379 == 0 ]]; then
+       deny_master_master_2379=$(nc -i1 $host 2379 2>&1 |grep "Idle timeout expired"| wc -l)
+       if [[ $deny_master_master_2379 == 1 ]]; then
           echo "==> Result : PASS !!"
        else
           echo "==> Result : Fail ;("
@@ -56,8 +62,8 @@ if [[ $(hostname) =~ ${master_prefix} ]]; then
 
        echo ""
        echo "From $(hostname) To $host : 2380(TCP)"
-       deny_master_master_2380=$(echo grep "No route to host" |  nc -i1 $host 2380 | wc -l)
-       if [[ $deny_master_master_2380 == 0 ]]; then
+       deny_master_master_2380=$(nc -i1 $host 2380 2>&1|grep "Idle timeout expired"| wc -l)
+       if [[ $deny_master_master_2380 == 1 ]]; then
           echo "==> Result : PASS !!"
        else
           echo "==> Result : Fail ;("
@@ -66,8 +72,8 @@ if [[ $(hostname) =~ ${master_prefix} ]]; then
        #for non_cluster etcd
        #echo ""
        #echo "From $(hostname) To $host : 4001(TCP)"
-       #deny_master_master_4001=$(echo grep "No route to host" |  nc -i1 $host 4001 | wc -l)
-       #if [[ $deny_master_master_4001 == 0 ]]; then
+       #deny_master_master_4001=$(nc -i1 $host 4001 2>&1 |grep "Idle timeout expired"| wc -l)
+       #if [[ $deny_master_master_4001 == 1 ]]; then
        #   echo "==> Result : PASS !!"
        #else
        #   echo "==> Result : Fail ;("
@@ -80,10 +86,13 @@ elif [[ $(hostname) =~ ${node_prefix} ]]; then
    do
      if [[ $host =~ ${node_prefix} ]]; then
        #Node to Node
+       echo ""
+       echo "================================================"
        echo "Check if ports are opened from Node to Node"
+       echo "================================================"
        echo "From $(hostname) To $host : 4789(UDP)"
-       deny_master_node_4789=$(echo grep "No route to host" |  nc -i1 -u $host 4789 | wc -l)
-       if [[ $deny_master_node_4789 == 0 ]]; then
+       deny_master_node_4789=$(nc -i1 -u $host 4789 2>&1|grep "Idle timeout expired"| wc -l)
+       if [[ $deny_master_node_4789 == 1 ]]; then
           echo "==> Result : PASS !!"
        else
           echo "==> Result : Fail ;("
@@ -91,10 +100,12 @@ elif [[ $(hostname) =~ ${node_prefix} ]]; then
      elif [[ $host =~ ${master_prefix} ]]; then
        echo ""
        #Nodes to Master
+       echo "================================================"
        echo "Check if ports are opened from Node to Master"
+       echo "================================================"
        echo "From $(hostname) To $host : 8443(TCP)"
-       deny_master_node_8443=$(echo grep "No route to host" |  nc -i1 $host 8443 | wc -l)
-       if [[ $deny_master_node_8443 == 0 ]]; then
+       deny_master_node_8443=$(nc -i1 $host 8443 2>&1 |grep "Idle timeout expired"| wc -l)
+       if [[ $deny_master_node_8443 == 1 ]]; then
           echo "==> Result : PASS !!"
        else
           echo "==> Result : Fail ;("
@@ -102,8 +113,8 @@ elif [[ $(hostname) =~ ${node_prefix} ]]; then
 
        echo ""
        echo "From $(hostname) To $host : 53(TCP)"
-       deny_master_master_53=$(echo grep "No route to host" |  nc -i1 $host 53 | wc -l)
-       if [[ $deny_master_master_53 == 0 ]]; then
+       deny_master_master_53=$(nc -i1 $host 53 2>&1|grep "Idle timeout expired"| wc -l)
+       if [[ $deny_master_master_53 == 1 ]]; then
           echo "==> Result : PASS !!"
        else
           echo "==> Result : Fail ;("

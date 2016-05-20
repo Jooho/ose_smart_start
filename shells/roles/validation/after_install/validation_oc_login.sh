@@ -1,13 +1,21 @@
-. ../../ose_config.sh
+#!/bin/bash
+#
+#  Author: Jooho Lee(ljhiyh@gmail.com)
+#    Date: 2016.05.20
+# Purpose: Check if api server is working well
+
+
+. $CONFIG_PATH/ose_config.sh
 
 if [[ $(hostname) == ${ansible_operation_vm} ]]; then
   echo "Add group docker "
   groupadd docker
   echo "Add user joep"
   useradd -G docker joe
-  lb_domain=$(grep openshift_master_cluster_public_hostname /etc/ansible/hosts | grep -v ^# |cut -d"=" -f2)
 
-  login_result=$(oc login https://$lb_domain:8443 -u joe -p redhat)
+  lb_domain=$openshift_master_cluster_public_hostname
+
+  login_result=$(runuser -l joe -c "oc login https://$lb_domain:8443 -u joe -p redhat --insecure-skip-tls-verify=true")
 
   echo ""
   echo "---------------------------------------------------------- "

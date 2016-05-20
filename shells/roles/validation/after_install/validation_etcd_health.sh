@@ -1,5 +1,11 @@
-. ../../ose_config.sh
+#!/bin/bash
+#
+#  Author: Jooho Lee(ljhiyh@gmail.com)
+#    Date: 2016.05.20
+# Purpose: Check if etcd is working well or not
 
+
+. $CONFIG_PATH/ose_config.sh
 
 prefix=""
 etcd_vm=""

@@ -1,5 +1,5 @@
 # Check if docker-storage is added
-. ../../ose_config.sh
+. $CONFIG_PATH/ose_config.sh
 
 echo "* Check if docker-storage is added"
 docker_storage_test_result=$(lvs |grep docker-pool| wc -l)

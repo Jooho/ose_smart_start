@@ -1,13 +1,16 @@
 # Check if essencial hostnames can be resolved by DNS
 # all host domain names
 # router *.${env}.${subdomain}
-# public_cluster_master_url (ex, api.${env}.${subdomain} ) 
-# cluster_master_url (ex, aoappd-cluster.${env}.${subdomain}) 
+# openshift_master_cluster_public_hostname (ex, api.${env}.${subdomain} ) 
+# openshift_master_cluster_hostname (ex, aoappd-cluster.${env}.${subdomain}) 
 
-. ../../../config/ose_config.sh 
+. ${CONFIG_PATH}/ose_config.sh 
 
-export success=0
+export success
+export fail
 export all_hosts_count=0
+#echo $all_hosts
+#echo $all_ip
 
 #Check all host domain nanmes
 for host in $all_hosts
@@ -15,21 +18,72 @@ do
   all_hosts_count=$((all_hosts_count + 1))
   for ip in $all_ip 
   do
-    temp_result=$(dig $host|grep $ip)
+    temp_result=$(dig $host|grep $ip$)
     if [[ $? == 0 ]]; then
      echo "$host is resolved to $ip"
-     success=$((success + 1))
+     success=("${success[@]}" "${host}")
+    elif [[ $(echo ${fail[@]} |grep $host |wc -l) -eq 0 ]] ;
+    then 
+#         echo "fail : $host"
+         fail=("${fail[@]}" "${host}")
     fi
+    if [[ $(echo ${fail[@]} |grep $host |wc -l) -gt 0 ]] && [[ $(echo ${success[@]} |grep $host |wc -l) -gt 0 ]];
+    then 
+       count=${#fail[@]}
+       unset fail[$((count-1))]
+    fi
+
   done
 done
 
 # Check router domain
-temp_result=$(dig ${subdomain}|grep $
+router_result=$(dig a.${subdomain}|grep -A2 "ANSWER SECTION")
+if [[ $? == 0 ]]; then
+ success=("${success[@]}" "*.${subdomain}")
+else
+ fail=("${fail[@]}" "*.${subdomain}")
+fi
+
+# Check public_cluster_master_hostname
+if [[ $(echo $all_hosts |grep $openshift_master_cluster_public_hostname |wc -l) -eq 0 ]];then 
+  public_cm_host_result=$(dig $openshift_master_cluster_public_hostname |grep -A2 "ANSWER SECTION") 
+  if [[ $? == 0 ]]; then
+   success=("${success[@]}" "${host}")
+  else
+   fail=("${fail[@]}" "$openshift_master_cluster_public_hostname")
+  fi
+else
+   public_cm_host_result="This domain is already tested" #duplicated url
+fi
+
+# Check openshift_master_cluster_hostname
+if [[ $(echo $all_hosts |grep $openshift_master_cluster_hostname |wc -l) -eq 0 ]];
+then 
+  cm_result=$(dig $openshift_master_cluster_hostname |grep -A2 "ANSWER SECTION") 
+  if [[ $? == 0 ]]; then
+   success=("${success[@]}" "${openshift_master_cluster_hostname}")
+  else
+   fail=("${fail[@]}" "$openshift_master_cluster_hostname")
+  fi
+else
+   cm_host_result="This domain is already tested" #duplicated url
+fi
+echo ""
 echo "------------------------------ "
-echo "Tested VM count :  $all_hosts_count "
-echo "Success VM count : $success"
-if [[ $all_hosts_count == $success ]];then
+echo "Success hostname : ${success[@]}"
+#echo ${#fail[@]}
+if [[ ${#fail[@]} == '0' ]] ;then
+    echo ""
     echo "** Result >> PASS !!"
+    echo ""
+    echo " You have you check the real ip(router/public cluster master/cluster master) which is resolved by DSN manually"
+    echo "================================================================="
+    echo "router: $router_result"
+    echo "================================================================="
+    echo "public cluster master host: $public_cm_host_result"
+    echo "================================================================="
+    echo "cluster master host: $cm_host_result"
 else
     echo "** Result >> FAIL ;("
+    echo "${fail[@]}"
 fi
