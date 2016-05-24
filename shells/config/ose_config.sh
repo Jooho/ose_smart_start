@@ -35,6 +35,7 @@ export env="smart"
 export ansible_hosts="ansible_hosts-${ose_version}.${env}"
 export host_file="hosts.${env}"
 export subdomain=$(grep subdomain ${ANSIBLE_PATH}/${ansible_hosts}|grep -v ^#|cut -d= -f2)
+export inventory_dir_path="/home/oseadmin/Builds"
 if [[ z${env} != z ]]; then
 	subdomain=${env}.${subdomain}
 fi
@@ -76,12 +77,14 @@ export yum_repolist="rhel-7-server-extras-rpms rhel-7-server-ose-3.1-rpms rhel-7
 
 
 export ansible_operation_vm="master1.example.com"
+export ose_cli_operation_vm="master1.example.com"
 export etcd_is_installed_on_master="true"
 export docker_log_max_file="3"
 export docker_log_max_size="300m"
 export docker_storage_dev="vda"
 export docker_registry_route_url=registry.cloudapps.example.com
-
+export docker_registry_svc_ip=172.30.0.2
+export ose_temp_dir=/root/ose
 #docker image version
 export image_version=v3.1.1.6
 

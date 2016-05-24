@@ -1,8 +1,13 @@
-# Check if essencial hostnames can be resolved by DNS
-# all host domain names
-# router *.${env}.${subdomain}
-# openshift_master_cluster_public_hostname (ex, api.${env}.${subdomain} ) 
-# openshift_master_cluster_hostname (ex, aoappd-cluster.${env}.${subdomain}) 
+#!/bin/bash
+#
+#  Author: Jooho Lee(ljhiyh@gmail.com)
+#    Date: 2016.05.20
+# Purpose: Check if essencial hostnames can be resolved by DNS
+#          Hostnames :-
+#               - all host domain names (ex, master1.example.com)
+#               - router (ex, *.${env}.${subdomain})
+#               - openshift_master_cluster_public_hostname (ex, api.${env}.${subdomain} ) 
+#               - openshift_master_cluster_hostname (ex, aoappd-cluster.${env}.${subdomain}) 
 
 . ${CONFIG_PATH}/ose_config.sh 
 
