@@ -1,7 +1,7 @@
 # Essecial package : nfs-util 
 function validate_config(){
 if [[ ! -e ${CONFIG_PATH}/${host_file} ]]; then
-	${CONFIG_PATH}/generate_hosts_file.sh $subdomain $host_file 
+	${CONFIG_PATH}/generate_hosts_file.sh $subdomain $host_file $ose_version $env
 	echo "INFO: ${CONFIG_PATH}/${host_file} does not exist so ${CONFIG_PATH}/generate_hosts_file.sh is executed"
 fi
 
@@ -31,11 +31,11 @@ fi
 };
 
 export ose_version="3.1"
-export env="smart"
+export env="stg"
 export ansible_hosts="ansible_hosts-${ose_version}.${env}"
 export host_file="hosts.${env}"
 export subdomain=$(grep subdomain ${ANSIBLE_PATH}/${ansible_hosts}|grep -v ^#|cut -d= -f2)
-export inventory_dir_path="/home/oseadmin/Builds"
+export inventory_dir_path="/home/oseadmin/jooho/ose_smart_start"
 if [[ z${env} != z ]]; then
 	subdomain=${env}.${subdomain}
 fi

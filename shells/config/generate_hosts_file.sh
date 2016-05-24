@@ -15,11 +15,13 @@ if [[ $# -eq 0 ]]; then
 fi
 export subdomain=$1
 export host_file=$2
+export ose_version=$3
+export env=$4
 subhostname=$( echo $subdomain | awk  -F'.' '{print $2 "." $3}' )  # example.com
 #Debug log
 #echo $subhostname
 #echo $host_file
-all_hostnames=$(grep ${subhostname} ../../ansible/ansible_hosts-3.1.smart |grep -v ^# |sort | uniq)
+all_hostnames=$(grep ${subhostname} $ANSIBLE_PATH/ansible_hosts-${ose_verion}.${env} |grep -v ^# |sort | uniq)
 touch "./${host_file}_unsorted"
 touch "./${host_file}_extra_hostname"
 touch "./${host_file}"
