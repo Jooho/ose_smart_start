@@ -30,4 +30,4 @@ export LVM_RANGE_END=1
 export NFS_MOUNT_POINT=/exports/ose
 export NFS_SERVER_TAG=infra
 export NFS_BLOCK_DEV=sdb
-export NFS_SERVER="infra.example.com"
+export NFS_SERVER="aoappd-e-nfs002.ctho.asbn.gtwy.dcn"

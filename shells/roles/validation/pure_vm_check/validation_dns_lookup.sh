@@ -23,15 +23,16 @@ do
   all_hosts_count=$((all_hosts_count + 1))
   for ip in $all_ip 
   do
-    temp_result=$(dig $host|grep $ip$)
+    temp_result=$(dig $host|grep $ip)
     if [[ $? == 0 ]]; then
      echo "$host is resolved to $ip"
      success=("${success[@]}" "${host}")
     elif [[ $(echo ${fail[@]} |grep $host |wc -l) -eq 0 ]] ;
     then 
-#         echo "fail : $host"
+    #     echo "fail : $host"
          fail=("${fail[@]}" "${host}")
     fi
+
     if [[ $(echo ${fail[@]} |grep $host |wc -l) -gt 0 ]] && [[ $(echo ${success[@]} |grep $host |wc -l) -gt 0 ]];
     then 
        count=${#fail[@]}
@@ -46,6 +47,7 @@ router_result=$(dig a.${subdomain}|grep -A2 "ANSWER SECTION")
 if [[ $? == 0 ]]; then
  success=("${success[@]}" "*.${subdomain}")
 else
+# echo "fail : *.${subdomain}"
  fail=("${fail[@]}" "*.${subdomain}")
 fi
 
@@ -53,9 +55,10 @@ fi
 if [[ $(echo $all_hosts |grep $openshift_master_cluster_public_hostname |wc -l) -eq 0 ]];then 
   public_cm_host_result=$(dig $openshift_master_cluster_public_hostname |grep -A2 "ANSWER SECTION") 
   if [[ $? == 0 ]]; then
-   success=("${success[@]}" "${host}")
+    success=("${success[@]}" "${host}")
   else
-   fail=("${fail[@]}" "$openshift_master_cluster_public_hostname")
+#    echo "fail : $openshift_master_cluster_public_hostname"
+    fail=("${fail[@]}" "$openshift_master_cluster_public_hostname")
   fi
 else
    public_cm_host_result="This domain is already tested" #duplicated url
@@ -68,6 +71,7 @@ then
   if [[ $? == 0 ]]; then
    success=("${success[@]}" "${openshift_master_cluster_hostname}")
   else
+#   echo "fail : $openshift_master_cluster_hostname"
    fail=("${fail[@]}" "$openshift_master_cluster_hostname")
   fi
 else

@@ -1,7 +1,11 @@
 # Essecial package : nfs-util 
 function validate_config(){
 if [[ ! -e ${CONFIG_PATH}/${host_file} ]]; then
-	${CONFIG_PATH}/generate_hosts_file.sh $subdomain $host_file $ose_version $env
+        if [[ $subdomain != $host_subdomain ]]; then
+	     ${CONFIG_PATH}/generate_hosts_file.sh $host_subdomain $host_file $ose_version $env
+        else 
+	     ${CONFIG_PATH}/generate_hosts_file.sh $subdomain $host_file $ose_version $env
+        fi
 	echo "INFO: ${CONFIG_PATH}/${host_file} does not exist so ${CONFIG_PATH}/generate_hosts_file.sh is executed"
 fi
 
@@ -9,9 +13,11 @@ if [[ -e ${CONFIG_PATH}/${host_file} ]]; then
 
 	while read host 
 	do
-		if [[ $(echo $host |grep ^#|wc -l) -eq 1 ]]; then
+                if [[ z$host == z ]]; then
+                        continue;
+		elif [[ $(echo $host |awk -F" " '{print $2}' |grep ^#|wc -l) -eq  1 ]]; then
 			continue;
-		elif [[ $(echo $host|awk -F" " '{print $2}' | grep -v ^$|wc -l) -eq 0 ]]; then
+		elif [[ $(echo $host| grep  '^..' |awk -F" " '{print $2}' |wc -l) -eq 0 ]]; then
 			echo "Error: You should add ip for ${host} in $CONFIG_PATH/${host_file}"
 			exit 9
 		fi
@@ -35,7 +41,8 @@ export env="stg"
 export ansible_hosts="ansible_hosts-${ose_version}.${env}"
 export host_file="hosts.${env}"
 export subdomain=$(grep subdomain ${ANSIBLE_PATH}/${ansible_hosts}|grep -v ^#|cut -d= -f2)
-export inventory_dir_path="/home/oseadmin/jooho/ose_smart_start"
+export host_subdomain="ctho.asbn.gtwy.dcn"
+export inventory_dir_path="/home/oseadmin/jooho/ose_smart_start/ansible"
 if [[ z${env} != z ]]; then
 	subdomain=${env}.${subdomain}
 fi
@@ -66,25 +73,24 @@ fi
 #echo $all_ip
 #echo "# number"
 
-export password="redhat"
-export node_prefix="node"
-export master_prefix="master"
-export etcd_prefix="etcd"
-export infra_selector="region=infra"
-export yum_repolist="rhel-7-server-extras-rpms rhel-7-server-ose-3.1-rpms rhel-7-server-rpms rhel-ha-for-rhel-7-server-rpms"
+export password="os3@dm1n"
+export node_prefix="nde007|nde008|nde009|nde010"
+export master_prefix="mgt013|mgt014|mgt015"
+export etcd_prefix="mgt016|mgt017|mgt018"
+export infra_selector="region=infra,zone=${env}"
+#export yum_repolist="rhel-7-server-extras-rpms rhel-7-server-ose-3.1-rpms rhel-7-server-rpms rhel-ha-for-rhel-7-server-rpms"
+export yum_repolist="rhel-7-server-extras-rpms rhel-7-server-ose-3.1-rpms rhel-7-server-rpms"
 
 
-
-
-export ansible_operation_vm="master1.example.com"
-export ose_cli_operation_vm="master1.example.com"
+export ansible_operation_vm="aoappd-w-dev001.ctho.sndg.gtwy.dcn"
+export ose_cli_operation_vm="aoappd-e-mgt013.ctho.asbn.gtwy.dcn"
 export etcd_is_installed_on_master="true"
 export docker_log_max_file="3"
 export docker_log_max_size="300m"
 export docker_storage_dev="vda"
 export docker_registry_route_url=registry.cloudapps.example.com
 export docker_registry_svc_ip=172.30.0.2
-export ose_temp_dir=/root/ose
+export ose_temp_dir=/home/oseadmin/ose
 #docker image version
 export image_version=v3.1.1.6
 

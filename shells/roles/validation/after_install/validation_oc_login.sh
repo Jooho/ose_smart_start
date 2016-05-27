@@ -7,11 +7,14 @@
 
 . $CONFIG_PATH/ose_config.sh
 
-if [[ $(hostname) == ${ansible_operation_vm} ]]; then
+if [[ $(hostname) == ${ose_cli_operation_vm} ]] && [[ ${ansible_operation_vm} == ${ose_cli_operation_vm} ]]
+then
   echo "Add group docker "
   groupadd docker
-  echo "Add user joep"
+  echo "Add user joe"
   useradd -G docker joe
+  
+  service docker restart
 
   lb_domain=$openshift_master_cluster_public_hostname
 
