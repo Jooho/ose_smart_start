@@ -1,4 +1,19 @@
-# Essecial package : nfs-util 
+#!/bin/bash
+#
+#  Author: Jooho Lee(ljhiyh@gmail.com)
+#    Date: 2016.05.18
+# Purpose: Configuration files
+#          This script manage most varialbes which are used in all scripts. 
+#          Before executing this script, ansible hosts file must be in a ose_smart_start/ansible folder. This script
+#          will extract some variable from the ansible script.
+
+# Essecial package : nfs-util,bind-utils 
+
+
+#This function check if the hosts.${env} file exist. 
+#      If not, generate_hosts_files.sh will be executed. The hosts.${env} file contains vm domain name.
+#      If exist, it also check the ip is added or not.
+
 function validate_config(){
 if [[ ! -e ${CONFIG_PATH}/${host_file} ]]; then
         if [[ $subdomain != $host_subdomain ]]; then
@@ -6,6 +21,7 @@ if [[ ! -e ${CONFIG_PATH}/${host_file} ]]; then
         else 
 	     ${CONFIG_PATH}/generate_hosts_file.sh $subdomain $host_file $ose_version $env
         fi
+
 	echo "INFO: ${CONFIG_PATH}/${host_file} does not exist so ${CONFIG_PATH}/generate_hosts_file.sh is executed"
 fi
 
@@ -36,13 +52,47 @@ else
 fi
 };
 
+# Description
+# ose_version="3.1" : Openshift major.minor version
+# env="stg"   : Cluster information and this variable will be used for ansbile_hosts/host_file variable because it is normal pattern client try
+# ansible_hosts : ansible host files
+# host_file : hosts hostname/IP information"
+# subdomain : Openshift subdomain information (It is usually used for VM host domain name)
+#             If you specify env, the subdomain will contains ${env} like ${env}.${subdomain}
+# host_subdomain : VM host subdomain name (If subdoamin is different from host name, this variable can be used)
+# inventory_dir_path : The path for ansible hosts (You can use $ANSIBLE_PATH)
+
+# yum_repolist : essential repositories to install Openshift 
+# password : password for root (But if ssh does not allow to access with root user, this variable is useless)
+# node_prefix : prefix which indicate nodes
+# master_prefix : prefix which indicate master
+# etcd_prefix : prefix which indicate etcd
+# infra_selector : selector which deploy router and registry
+# ansible_operation_vm : the node which will run ansible-playbook
+# ose_cli_operation_vm : the node which will run oc command( normally the first master )
+# etcd_is_installed_on_master : If etcd is installed on master node, set true
+# docker_log_max_file : it set the max file of lograting docker log file 
+# docker_log_max_size : it set the max size of docker log file.
+# docker_storage_dev : block device for docker storage
+# docker_registry_route_url : route for docker registry
+# docker_registry_svc_ip : Service ip for docker registry (it will help keep the svc ip even though docker registry is redeployed
+# ose_temp_dir : the temp directory which will contain ose_smart_start scripts
+#docker image version
+# image_version=v3.1.1.6
+
+
+# Automatic configured variables
+# all_hosts : domain names which are used in ansible hosts (Masters/ETCD/Nodes)
+# all_ip : IP address which are used in ansible hosts (Masters/ETCD/Nodes)
+
+
 export ose_version="3.1"
 export env="stg"
 export ansible_hosts="ansible_hosts-${ose_version}.${env}"
 export host_file="hosts.${env}"
 export subdomain=$(grep subdomain ${ANSIBLE_PATH}/${ansible_hosts}|grep -v ^#|cut -d= -f2)
 export host_subdomain="ctho.asbn.gtwy.dcn"
-export inventory_dir_path="/home/oseadmin/jooho/ose_smart_start/ansible"
+export inventory_dir_path=$ANSIBLE_PATH
 if [[ z${env} != z ]]; then
 	subdomain=${env}.${subdomain}
 fi
