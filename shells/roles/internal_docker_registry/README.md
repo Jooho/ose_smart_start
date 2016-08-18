@@ -9,30 +9,13 @@ In order to use scripts, you need to execute this:
 # source getReady.sh 
 ~~~ 
 
-##Required files:
-The postfix of ImageStream files show the ose version. If you want to use different OSE version, you need to create following file first.
-~~~
- fis-image-streams.json.3.1
- image-streams-rhel7.json.3.1
- jboss-image-streams.json.3.1
-~~~
-
 
 ##Update config files:
 1. If you already configured ${CONFIG_PATH}/ose_config.sh.default, you don't need to update config file.
 
 2. If you want to use this role only, you need to do following steps:
    
-2.1. Update ${CONFIG_PATH}/ose_config.sh (at the bottom)
-~~~
-...
-. ${CONFIG_PATH}/ose_config.sh.rhev
-. ${CONFIG_PATH}/nfs_config.sh
-. ${CONFIG_PATH}/pv_config.sh
-. ${CONFIG_PATH}/images_config.sh.31     <========  It shows it use ose 3.1 imagesStream official json file above explained
-~~~
-
-2.2. Update $CONFIG_PATH/images_config.sh.31
+2.1. Update $CONFIG_PATH/images_config.sh.31
 ~~~
 export default_registry="registry.access.redhat.com"
 export new_docker_registry_url="sourcehub.ao.dcn:5000"
