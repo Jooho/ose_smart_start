@@ -55,7 +55,7 @@ cd ose_smart_start/shells/roles/internal_docker_registry
 ./2.save_images_from_docker.sh
 ~~~
 
-###Step 3. Copying tar files to Gitlab vm
+###Step 3. Copying tar files to the external docker registry vm
 ~~~
 scp *.tar sourcehub.ao.dcn:/var/lib/docker/.
 ~~~
