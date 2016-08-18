@@ -170,8 +170,8 @@ fi
 
 
 
-. ${CONFIG_PATH}/ose_config.sh.default
+. ${CONFIG_PATH}/ose_config.sh.sbx
 . ${CONFIG_PATH}/nfs_config.sh
 . ${CONFIG_PATH}/pv_config.sh
-. ${CONFIG_PATH}/images_config.sh.31
+. ${CONFIG_PATH}/images_config.sh
 

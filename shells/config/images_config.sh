@@ -9,7 +9,7 @@
 #========================================================================
 #        20160721   jooho    Create
 #        20160816   jooho    Add xpaas image list
-#
+#        20160818   jooho    To get imageStream name/tag, add new logic with jq
 #
 
 
@@ -20,7 +20,10 @@ export base_images="
     registry.access.redhat.com/openshift3/ose-sti-builder \
     registry.access.redhat.com/openshift3/ose-docker-builder \
     registry.access.redhat.com/openshift3/ose-pod \
-    registry.access.redhat.com/openshift3/ose-docker-registry"
+    registry.access.redhat.com/openshift3/ose-docker-registry \
+    registry.access.redhat.com/openshift3/ose-recycler \
+    registry.access.redhat.com/openshift3/ose-keepalived-ipfailover \
+    registry.access.redhat.com/openshift3/ose-f5-router"
 
 export logging_metrics_images="
     registry.access.redhat.com/openshift3/logging-deployment \
@@ -34,17 +37,17 @@ export logging_metrics_images="
     registry.access.redhat.com/openshift3/metrics-heapster"
 
 #rhel7 image is using different name for each version
-export builder_images=$(cat image-streams-rhel7.json.${ose_version}|grep registry.access|cut -d: -f2|sed 's/"//g')
+# If there is no jq on system, you can download it
+# ftp://195.220.108.108/linux/fedora/linux/releases/22/Everything/x86_64/os/Packages/j/jq-1.3-4.fc22.x86_64.rpm
 
-export xpaas_images="
-    registry.access.redhat.com/jboss-fuse-6/fis-java-openshift \
-    registry.access.redhat.com/jboss-fuse-6/fis-karaf-openshift \
-    registry.access.redhat.com/jboss-datagrid-6/datagrid65-openshift \
-    registry.access.redhat.com/jboss-amq-6/amq62-openshift \
-    registry.access.redhat.com/jboss-eap-6/eap64-openshift \
-    registry.access.redhat.com/jboss-webserver-3/webserver30-tomcat7-openshift \
-    registry.access.redhat.com/jboss-webserver-3/webserver30-tomcat8-openshift \
-    registry.access.redhat.com/jboss-decisionserver-6/decisionserver62-openshift"
+export builder_images=$(cat ./imageStream/image-streams-rhel7.json.${ose_version}|grep registry.access|cut -d: -f2|sed 's/"//g')
+
+export fis_images=$(cat ./imageStream/fis-image-streams.json.${ose_version}|grep registry.access|cut -d: -f2|sed 's/,//g'|sed 's/"//g')
+export fis_tags=$(cat ./imageStream/fis-image-streams.json.${ose_version} |jq '.items[].spec | {dockerImage: .dockerImageRepository, tag : .tags[].name}' |jq .|grep -v dockerImage |sed "s/[{,},\",tag:]//g"|sort|uniq)
+
+export jboss_images=$(cat ./imageStream/jboss-image-streams.json.${ose_version}|grep registry.access|cut -d: -f2|sed 's/,//g'|sed 's/"//g')
+export jboss_tags=$(cat ./imageStream/jboss-image-streams.json.${ose_version} |jq '.items[].spec | {dockerImage: .dockerImageRepository, tag : .tags[].name}' |jq .|grep -v dockerImage |sed "s/[{,},\",tag:]//g"|sort|uniq)
+
 
 export default_registry="registry.access.redhat.com"
 export new_docker_registry_url="sourcehub.ao.dcn:5000"
