@@ -37,6 +37,7 @@ The postfix of ImageStream files show the ose version. If you want to use differ
 export default_registry="registry.access.redhat.com"
 export new_docker_registry_url="sourcehub.ao.dcn:5000"
 export ose_version=3.1                    <====== Please add this value (No micro version)
+export image_version=3.1.1.6              <====== Please add this value
 ~~~
 
 
@@ -55,7 +56,7 @@ cd ose_smart_start/shells/roles/internal_docker_registry
 ./2.save_images_from_docker.sh
 ~~~
 
-###Step 3. Copying tar files to Gitlab vm
+###Step 3. Copying tar files to the external docker registry vm
 ~~~
 scp *.tar sourcehub.ao.dcn:/var/lib/docker/.
 ~~~
@@ -72,13 +73,13 @@ cd ose_smart_start/shells/roles/internal_docker_registry
 ./4.retag_and_push_official_images_to_docker_registry.sh
 ~~~
 
-###Step 6. Update ImageStream in openshift project 
+###Step 6. Update ImageStream in openshift project  (login with cluster admin user to openshift before execute it)
 ~~~
  ./5.clean_create_imagestream_in_openshift_proj.sh
 ~~~
 
 ##Trouble shooting
-###Case 1. If integrated docker registry for internal repository is not running after you finish all steps above, try this script
+###Case 1. If integrated docker registry is not running after you finish all steps above, try this script
 ~~~
 ./change_docker_registy_version.sh
 ~~~
