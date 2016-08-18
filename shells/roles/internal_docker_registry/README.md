@@ -78,7 +78,7 @@ cd ose_smart_start/shells/roles/internal_docker_registry
 ~~~
 
 ##Trouble shooting
-###Case 1. If integrated docker registry for internal repository is not running after you finish all steps above, try this script
+###Case 1. If integrated docker registry is not running after you finish all steps above, try this script
 ~~~
 ./change_docker_registy_version.sh
 ~~~
