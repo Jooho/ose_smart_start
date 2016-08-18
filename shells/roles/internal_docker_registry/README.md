@@ -37,6 +37,7 @@ The postfix of ImageStream files show the ose version. If you want to use differ
 export default_registry="registry.access.redhat.com"
 export new_docker_registry_url="sourcehub.ao.dcn:5000"
 export ose_version=3.1                    <====== Please add this value (No micro version)
+export image_version=3.1.1.6              <====== Please add this value
 ~~~
 
 
