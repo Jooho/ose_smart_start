@@ -73,7 +73,7 @@ cd ose_smart_start/shells/roles/internal_docker_registry
 ./4.retag_and_push_official_images_to_docker_registry.sh
 ~~~
 
-###Step 6. Update ImageStream in openshift project 
+###Step 6. Update ImageStream in openshift project  (login with cluster admin user to openshift before execute it)
 ~~~
  ./5.clean_create_imagestream_in_openshift_proj.sh
 ~~~
