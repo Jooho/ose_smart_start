@@ -86,12 +86,12 @@ fi
 # all_ip : IP address which are used in ansible hosts (Masters/ETCD/Nodes)
 
 
-export ose_version="3.1"
-export env="stg"
+export ose_version="3.1"     # Update
+export env="stg"             # Update
 export ansible_hosts="ansible_hosts-${ose_version}.${env}"
 export host_file="hosts.${env}"
 export subdomain=$(grep subdomain ${ANSIBLE_PATH}/${ansible_hosts}|grep -v ^#|cut -d= -f2)
-export host_subdomain="ctho.asbn.gtwy.dcn"
+export host_subdomain="ctho.asbn.gtwy.dcn"     # Update
 export inventory_dir_path=$ANSIBLE_PATH
 if [[ z${env} != z ]]; then
 	subdomain=${env}.${subdomain}
@@ -123,26 +123,26 @@ fi
 #echo $all_ip
 #echo "# number"
 
-export password="os3@dm1n"
-export node_prefix="nde007|nde008|nde009|nde010"
-export master_prefix="mgt013|mgt014|mgt015"
-export etcd_prefix="mgt016|mgt017|mgt018"
-export infra_selector="region=infra,zone=${env}"
+export password="os3@dm1n"                          # Update
+export node_prefix="nde007|nde008|nde009|nde010"    # Update
+export master_prefix="mgt013|mgt014|mgt015"         # Update
+export etcd_prefix="mgt016|mgt017|mgt018"           # Update
+export infra_selector="region=infra,zone=${env}"    # Update
 #export yum_repolist="rhel-7-server-extras-rpms rhel-7-server-ose-3.1-rpms rhel-7-server-rpms rhel-ha-for-rhel-7-server-rpms"
 export yum_repolist="rhel-7-server-extras-rpms rhel-7-server-ose-3.1-rpms rhel-7-server-rpms"
 
 
-export ansible_operation_vm="aoappd-w-dev001.ctho.sndg.gtwy.dcn"
-export ose_cli_operation_vm="aoappd-e-mgt013.ctho.asbn.gtwy.dcn"
-export etcd_is_installed_on_master="true"
-export docker_log_max_file="3"
+export ansible_operation_vm="aoappd-w-dev001.ctho.sndg.gtwy.dcn"    # Update
+export ose_cli_operation_vm="aoappd-e-mgt013.ctho.asbn.gtwy.dcn"    # Update
+export etcd_is_installed_on_master="true"                           # Update
+export docker_log_max_file="3"    
 export docker_log_max_size="300m"
-export docker_storage_dev="vda"
-export docker_registry_route_url=registry.cloudapps.example.com
-export docker_registry_svc_ip=172.30.0.2
-export ose_temp_dir=/home/oseadmin/ose
+export docker_storage_dev="vda"                                     # Update
+export docker_registry_route_url=registry.cloudapps.example.com     # Update
+export docker_registry_svc_ip=172.30.0.2                            # Update
+export ose_temp_dir=/home/oseadmin/ose                              # Update
 #docker image version
-export image_version=v3.1.1.6
+export image_version=v3.1.1.6                                       # Update
 
 . ${CONFIG_PATH}/nfs_config.sh
 . ${CONFIG_PATH}/pv_config.sh

@@ -1,0 +1,17 @@
+fis-java-openshift                      
+fis-karaf-openshift                     
+jboss-amq-62                            
+jboss-datagrid65-openshift              
+jboss-decisionserver62-openshift        
+jboss-eap64-openshift                   
+jboss-webserver30-tomcat7-openshift     
+jboss-webserver30-tomcat8-openshift     
+jenkins                                 
+mongodb                                 
+mysql                                   
+nodejs                                  
+perl                                    
+php                                     
+postgresql                              
+python                                  
+ruby                                   

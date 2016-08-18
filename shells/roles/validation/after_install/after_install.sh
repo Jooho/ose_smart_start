@@ -40,27 +40,27 @@ echo "======================================================"
 echo ""
 echo "***** validation_dns_look_up_router on $ose_cli_operation_vm ******"
 echo ""
-scp ./validation_dns_look_up_router.sh root@$ose_cli_operation_vm:${ose_temp_dir}/.
+#scp ./validation_dns_look_up_router.sh root@$ose_cli_operation_vm:${ose_temp_dir}/.
 ssh -q root@${ose_cli_operation_vm} "sh ${ose_temp_dir}/validation_dns_look_up_router.sh"
 read
 
 echo ""
 echo "***** validation_etcd_health on $ose_cli_operation_vm ******"
 echo ""
-scp ./validation_etcd_health.sh root@$ose_cli_operation_vm:${ose_temp_dir}/.
+#scp ./validation_etcd_health.sh root@$ose_cli_operation_vm:${ose_temp_dir}/.
 ssh -q root@${ose_cli_operation_vm} "sh ${ose_temp_dir}/validation_etcd_health.sh" 
 read 
 
 echo ""
 echo "***** validation_oc_login on $ose_cli_operation_vm ******"
 echo ""
-scp ./validation_oc_login.sh root@$ose_cli_operation_vm:${ose_temp_dir}/.
+#scp ./validation_oc_login.sh root@$ose_cli_operation_vm:${ose_temp_dir}/.
 ssh -q root@${ose_cli_operation_vm} "sh ${ose_temp_dir}/validation_oc_login.sh" 
 read 
 
 echo ""
 echo "***** validation_port_open on $ose_cli_operation_vm ******"
 echo ""
-scp ./validation_port_open.sh  root@$ose_cli_operation_vm:${ose_temp_dir}/.
+#scp ./validation_port_open.sh  root@$ose_cli_operation_vm:${ose_temp_dir}/.
 ssh -q root@${ose_cli_operation_vm} "sh ${ose_temp_dir}/validation_port_open.sh "
 read 

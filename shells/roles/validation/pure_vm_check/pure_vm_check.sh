@@ -36,9 +36,9 @@
 
 . $CONFIG_PATH/ose_config.sh
 
-cd $HOME_PATH/; cd ..
-tar cvf ./ose_smart_start.tar ./ose_smart_start
-for HOST in `grep -v \# $CONFIG_PATH/$host_file | awk '{ print $1 }'`;
+#cd $HOME_PATH/; cd ..
+#tar cvf ./ose_smart_start.tar ./ose_smart_start
+#for HOST in `grep -v \# $CONFIG_PATH/$host_file | awk '{ print $1 }'`;
 do
 
   scp ~/.bashrc  oseadmin@${HOST}:
@@ -49,7 +49,7 @@ do
   scp ./ose_smart_start.tar oseadmin@${HOST}:${ose_temp_dir}/.
   ssh -t -q oseadmin@${HOST} "tar xvf ${ose_temp_dir}/ose_smart_start.tar -C  ${ose_temp_dir}"
 
-# import eseencial variables to ~/.bashrc
+# import essential variables to ~/.bashrc
   ssh -t -q oseadmin@${HOST} "echo \"export HOME_PATH=${ose_temp_dir}/ose_smart_start\" >> ~/.bashrc"
   ssh -t -q oseadmin@${HOST} "echo \"export ANSIBLE_PATH=${ose_temp_dir}/ose_smart_start/ansible \" >> ~/.bashrc"
   ssh -t -q oseadmin@${HOST} "echo \"export CONFIG_PATH=${ose_temp_dir}/ose_smart_start/shells/config \" >> ~/.bashrc"
@@ -67,18 +67,21 @@ do
   
   echo ""
   echo "***** validation_yum_repolist on oseadmin@${HOST} ******"
+  echo "        NOTE : This validation could be fail.    "
   echo ""
   ssh -q oseadmin@${HOST} "sh ${ose_temp_dir}/ose_smart_start/shells/roles/validation/pure_vm_check/validation_yum_repolist.sh" 
   read 
   
   echo ""
   echo "***** validation_docker_storage on oseadmin@${HOST} ******"
+  echo "        NOTE : This validation could be fail.    "
   echo ""
   ssh -q oseadmin@${HOST} "sh ${ose_temp_dir}/ose_smart_start/shells/roles/validation/pure_vm_check/validation_docker_storage.sh" 
   read 
 
   echo ""
   echo "***** validation_persistent_vol on oseadmin@${HOST} ******"
+  echo "        NOTE : This validation could be fail.    "
   echo ""
   ssh -q oseadmin@${HOST} "sh ${ose_temp_dir}/ose_smart_start/shells/roles/validation/pure_vm_check/validation_persistent_vol.sh "
   read 
