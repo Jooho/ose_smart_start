@@ -40,7 +40,7 @@ do
 done
 
 
-for HOST in `egrep "${master_prefix}" $CONFIG_PATH/${host_file} | awk '{ print $1 }' ` 
+for HOST in `egrep "${master_prefix}" ${host_file_path}/${host_file} | awk '{ print $1 }' ` 
 do  
     ssh -q root@${HOST} "sh ${ose_temp_dir}/${after_install_path}/3-1.change_webconsole_cert.sh
 done

@@ -16,7 +16,7 @@
 . ${CONFIG_PATH}/ose_config.sh
 
 # Open port 1936 which is used by haproxy statistics
-for HOST in `egrep "${node_prefix}" ${CONFIG_PATH}/${host_file} | awk '{ print $1 }' `
+for HOST in `egrep "${node_prefix}" ${host_file_path}/${host_file} | awk '{ print $1 }' `
 do
     ssh -q root@$HOST "iptables -A OS_FIREWALL_ALLOW -p tcp -m state --state NEW -m tcp --dport 1936 -j ACCEPT"
     ssh -q root@$HOST "iptables -A OS_FIREWALL_ALLOW -p udp -m state --state NEW -m udp --dport 1936 -j ACCEPT"

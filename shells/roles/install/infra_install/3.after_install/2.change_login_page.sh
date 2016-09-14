@@ -51,7 +51,7 @@ EOB
 EOA
 
 
-for HOST in `egrep "${master_prefix}" $CONFIG_PATH/${host_file} | awk '{ print $1 }' `
+for HOST in `egrep "${master_prefix}" ${host_file_path}/${host_file} | awk '{ print $1 }' `
 do
     scp change_login_page.sh  root@$HOST:/etc/origin/master/.
     ssh -q root@$HOST "cp /etc/origin/master/master-config.yaml /etc/origin/master/master-config.yaml-`date +%F-%H%M`_before_change_login_page"
@@ -75,7 +75,7 @@ do
         echo "Have you update configuration on all Master Nodes?(y/n)"
         read update_master_configuration
         if [[ $update_master_configuration == "y" ]]; then
-           for HOST in `egrep "${master_prefix}" $CONFIG_PATH/${host_file} | awk '{ print $1 }' `
+           for HOST in `egrep "${master_prefix}" ${host_file_path}/${host_file} | awk '{ print $1 }' `
            do
                 echo "Restarting master server : $HOST"
                 ssh -q root@$HOST "systemctl restart atomic-openshift-master-api"

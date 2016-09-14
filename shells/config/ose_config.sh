@@ -16,6 +16,7 @@
 #        20160801        Backup sbx
 #        20160802        Backup rhev
 #        20160822        add checking jq package
+#        20160913        refactory and separate custom files
 #
 
 
@@ -92,7 +93,7 @@ do
            detected_ip=("${detected_ip[@]}" "${ip}")
         fi
      fi
-done < ${CONFIG_PATH}/${host_file}
+done < ${host_file_path}/${host_file}
 
 if [[ $need_host_ip == "host" ]]; then
     echo $(echo ${detected_host[@]})
@@ -102,17 +103,17 @@ fi
 }
 
 function validate_config(){
-if [[ ! -e ${CONFIG_PATH}/${host_file} ]]; then
+if [[ ! -e ${host_file_path}/${host_file} ]]; then
         if [[ $subdomain != $host_subdomain ]]; then
              ${CONFIG_PATH}/generate_hosts_file.sh $host_subdomain $host_file $ose_version $env
         else
              ${CONFIG_PATH}/generate_hosts_file.sh $subdomain $host_file $ose_version $env
         fi
 
-        echo "INFO: ${CONFIG_PATH}/${host_file} does not exist so ${CONFIG_PATH}/generate_hosts_file.sh is executed"
+        echo "INFO: ${host_file_path}/${host_file} does not exist so ${CONFIG_PATH}/generate_hosts_file.sh is executed"
 fi
 
-if [[ -e ${CONFIG_PATH}/${host_file} ]]; then
+if [[ -e ${host_file_path}/${host_file} ]]; then
 
         while read host
         do
@@ -121,15 +122,15 @@ if [[ -e ${CONFIG_PATH}/${host_file} ]]; then
                 elif [[ $(echo $host |awk -F" " '{print $2}' |grep ^#|wc -l) -eq  1 ]]; then
                         continue;
                 elif [[ $(echo $host| grep  '^..' |awk -F" " '{print $2}' |wc -l) -eq 0 ]]; then
-                        echo "Error: You should add ip for ${host} in $CONFIG_PATH/${host_file}"
+                        echo "Error: You should add ip for ${host} in ${host_file_path}/${host_file}"
                         exit 9
                 fi
-        done < ${CONFIG_PATH}/${host_file}
+        done < ${host_file_path}/${host_file}
 
 fi
 
-if [[ ! -e ${ANSIBLE_PATH}/ansible_hosts-${ose_version}.${env} ]]; then
-        echo "${ANSIBLE_PATH}/ansible_hosts-${ose_version}.${env} does not exist. Process stopped"
+if [[ ! -e ${ansible_file_path}/ansible_hosts-${ose_version}.${env} ]]; then
+        echo "${ansible_file_path}/ansible_hosts-${ose_version}.${env} does not exist. Process stopped"
         exit 2
 elif [[ $(rpm -aq|grep jq|wc -l) -eq 0 ]]; then 
         echo " This script use jq command. Please install jq"
@@ -150,11 +151,11 @@ fi
 # ose_version="3.1" : Openshift major.minor version
 # env="stg"   : Cluster information and this variable will be used for ansbile_hosts/host_file variable because it is normal pattern client try
 # ansible_hosts : ansible host files
+# host_file_path : hosts file path
 # host_file : hosts hostname/IP information"
 # subdomain : Openshift subdomain information (It is usually used for VM host domain name)
 #             If you specify env, the subdomain will contains ${env} like ${env}.${subdomain}
 # host_subdomain : VM host subdomain name (If subdoamin is different from host name, this variable can be used)
-# inventory_dir_path : The path for ansible hosts (You can use $ANSIBLE_PATH)
 
 # yum_repolist : essential repositories to install Openshift
 # password : password for root (But if ssh does not allow to access with root user, this variable is useless)
@@ -183,7 +184,7 @@ fi
 
 
 
-. ${CONFIG_PATH}/ose_config.sh.sbx
-. ${CONFIG_PATH}/nfs_config.sh
-. ${CONFIG_PATH}/pv_config.sh
+. ${CONFIG_PATH}/custom/ose_config.sh.sbx
+. ${CONFIG_PATH}/custom/nfs_config.sh.sbx
+. ${CONFIG_PATH}/custom/pv_config.sh.sbx
 . ${CONFIG_PATH}/images_config.sh

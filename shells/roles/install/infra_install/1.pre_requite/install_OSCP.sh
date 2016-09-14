@@ -29,10 +29,10 @@ do
 	ssh -q root@$HOST "uptime"
 done
 
-ls ${inventory_dir_path}/${ansible_hosts}
+ls ${ansible_file_path}/${ansible_hosts}
 
 ################### Install OSE !!!!!    ##################
 echo " "
 echo "Now we are ready to install Openshift, please execute this command"
-echo "ansible-playbook /usr/share/ansible/openshift-ansible/playbooks/byo/config.yml -i ${inventory_dir_path}/${ansible_hosts}"
+echo "ansible-playbook /usr/share/ansible/openshift-ansible/playbooks/byo/config.yml -i ${ansible_file_path}/${ansible_hosts}"
 

@@ -53,19 +53,19 @@
 . $CONFIG_PATH/ose_config.sh
 
 #Install Squid to Masters/Infra nodes
-for HOST in `egrep "${master_prefix}" $CONFIG_PATH/${host_file} | awk '{ print $1 }' `
+for HOST in `egrep "${master_prefix}" ${host_file_path}/${host_file} | awk '{ print $1 }' `
 do
     	ssh -q ${HOST} "sh ${ose_temp_dir}/${after_install_path}/0-1.install_configure_squid.sh"
 done
 
-for HOST in `egrep "${infra_prefix}" $CONFIG_PATH/${host_file} | awk '{ print $1 }' `
+for HOST in `egrep "${infra_prefix}" ${host_file_path}/${host_file} | awk '{ print $1 }' `
 do
     	ssh -q ${HOST} "sh ${ose_temp_dir}/${after_install_path}/0-1.install_configure_squid.sh"
 done
 
 
 # Update proxy information
-for HOST in `grep -v \# $CONFIG_PATH/$host_file | awk '{ print $1 }'` 
+for HOST in `grep -v \# ${host_file_path}/$host_file | awk '{ print $1 }'` 
 do 
 	ssh -q root@${HOST} "sh ${ose_temp_dir}/${after_install_path}/0-2.add_proxy_information_docker_ose.sh" ; 
 done
@@ -84,7 +84,7 @@ then
 fi
 
 # Add iptables
-for HOST in `egrep -v "${etcd_prefix}" $CONFIG_PATH/${host_file} | awk '{ print $1 }' `
+for HOST in `egrep -v "${etcd_prefix}" ${host_file_path}/${host_file} | awk '{ print $1 }' `
 do
     ssh -q ${HOST} "sh ${ose_temp_dir}/${after_install_path}/0-4.create_squid_iptables.sh"
 done

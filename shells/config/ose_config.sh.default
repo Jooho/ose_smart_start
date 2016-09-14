@@ -24,13 +24,14 @@ export debug="true"
 export ose_version="3.2"     # Update
 export env="default"            # Update
 export ansible_hosts="ansible_hosts-${ose_version}.${env}"
+export host_file_path="${CONFIG_PATH}/custom"
 export host_file="hosts.${env}"
-export subdomain=$(grep subdomain ${ANSIBLE_PATH}/${ansible_hosts}|grep -v ^#|cut -d= -f2)
+export ansible_file_path="${ANSIBLE_PATH}/custom"
+export subdomain=$(grep subdomain ${ansible_file_path}/${ansible_hosts}|grep -v ^#|cut -d= -f2)
 export host_subdomain="example.com"     # Update
-export inventory_dir_path=$ANSIBLE_PATH
 
-export openshift_master_cluster_public_hostname=$(grep openshift_master_cluster_public_hostname ${ANSIBLE_PATH}/${ansible_hosts}|grep -v ^#|cut -d= -f2)
-export openshift_master_cluster_hostname=$(grep openshift_master_cluster_hostname ${ANSIBLE_PATH}/${ansible_hosts}|grep -v ^#|cut -d= -f2)
+export openshift_master_cluster_public_hostname=$(grep openshift_master_cluster_public_hostname ${ansible_file_path}/${ansible_hosts}|grep -v ^#|cut -d= -f2)
+export openshift_master_cluster_hostname=$(grep openshift_master_cluster_hostname ${ansible_file_path}/${ansible_hosts}|grep -v ^#|cut -d= -f2)
 export all_hosts
 export all_ip
 
@@ -38,14 +39,14 @@ validate_config
 
 # Look for number of the first # character from hosts_${env}. After the #, it might have public cluster master url,
 # cluster master url or subdomain url
-line=$(cat ${CONFIG_PATH}/${host_file} |grep -n ^# |head -1|awk -F":" '{print $1}')
+line=$(cat ${host_file_path}/${host_file} |grep -n ^# |head -1|awk -F":" '{print $1}')
 
 if [[ z$line == z ]];then
-        all_hosts=$(cat ${CONFIG_PATH}/${host_file} | awk '{ print $1 }' | tr '\n' ' ')
-        all_ip=$(cat ${CONFIG_PATH}/${host_file} | awk '{ print $2 }' | tr '\n' ' ')
+        all_hosts=$(cat ${host_file_path}/${host_file} | awk '{ print $1 }' | tr '\n' ' ')
+        all_ip=$(cat ${host_file_path}/${host_file} | awk '{ print $2 }' | tr '\n' ' ')
 else
-        all_hosts=$(cat ${CONFIG_PATH}/${host_file} | awk '{ print $1 }' |sed "${line},100d" | tr '\n' ' ')
-        all_ip=$(cat ${CONFIG_PATH}/${host_file} | awk '{ print $2 }' | sed "${line},100d" | tr '\n' ' ')
+        all_hosts=$(cat ${host_file_path}/${host_file} | awk '{ print $1 }' |sed "${line},100d" | tr '\n' ' ')
+        all_ip=$(cat ${host_file_path}/${host_file} | awk '{ print $2 }' | sed "${line},100d" | tr '\n' ' ')
 fi
 
 # registry.${env}.${subdomain}

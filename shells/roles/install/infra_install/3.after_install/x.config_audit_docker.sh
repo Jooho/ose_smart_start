@@ -6,7 +6,7 @@
 
 . ${CONFIG_PATH}/ose_config.sh
 
-for HOST in `cat  $CONFIG_PATH/${host_file} | awk '{ print $1 }' `
+for HOST in `cat  ${host_file_path}/${host_file} | awk '{ print $1 }' `
 do
   ssh root@$HOST bash -c '"
 cat << EOF > /etc/audit/rules.d/docker.rules

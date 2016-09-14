@@ -40,7 +40,7 @@ do
         echo "master-config.yaml file is updated properly?(y/n)" 
         read update_master_configuration
         if [[ $update_master_configuration == "y" ]]; then
-           for HOST in `egrep "${master_config}" $CONFIG_PATH/${host_file} | awk '{ print $1 }' `
+           for HOST in `egrep "${master_config}" ${host_file_path}/${host_file} | awk '{ print $1 }' `
            do
                 echo "Restarting master server : $HOST"
                 ssh -q root@$HOST "systemctl restart atomic-openshift-master-api"

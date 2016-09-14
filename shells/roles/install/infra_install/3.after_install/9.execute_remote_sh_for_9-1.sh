@@ -22,7 +22,7 @@
 
 . $CONFIG_PATH/ose_config.sh
 
-for HOST in `egrep -v "${etcd_prefix}" $CONFIG_PATH/${host_file} | awk '{ print $1 }' `
+for HOST in `egrep -v "${etcd_prefix}" ${host_file_path}/${host_file} | awk '{ print $1 }' `
 do
    ssh -q root@$HOST "sh ${ose_temp_dir}/${after_install_path}/9-1.config_fsyslog_logrotate.sh"
 done
