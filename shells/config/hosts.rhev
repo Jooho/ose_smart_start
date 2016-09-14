@@ -1,0 +1,7 @@
+master1.example.com 10.64.168.230
+master2.example.com 10.64.168.171
+master3.example.com 10.64.168.68
+node1.example.com 10.64.168.71
+node2.example.com 10.64.168.58
+node3.example.com 10.64.168.92
+lb.example.com 10.64.168.169

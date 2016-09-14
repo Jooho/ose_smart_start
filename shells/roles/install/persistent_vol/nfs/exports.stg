@@ -1,0 +1,13 @@
+
+/exports/ose-registry 10.161.32.11(rw,root_squash) 10.161.32.12(rw,root_squash) 10.161.32.13(rw,root_squash) 10.161.32.14(rw,root_squash) 10.161.32.15(rw,root_squash)
+/exports/lv_ose01 10.161.32.11(rw,root_squash) 10.161.32.12(rw,root_squash) 10.161.32.13(rw,root_squash) 10.161.32.14(rw,root_squash) 10.161.32.15(rw,root_squash)
+/exports/lv_ose02 10.161.32.11(rw,root_squash) 10.161.32.12(rw,root_squash) 10.161.32.13(rw,root_squash) 10.161.32.14(rw,root_squash) 10.161.32.15(rw,root_squash)
+/exports/lv_ose03 10.161.32.11(rw,root_squash) 10.161.32.12(rw,root_squash) 10.161.32.13(rw,root_squash) 10.161.32.14(rw,root_squash) 10.161.32.15(rw,root_squash)
+/exports/lv_ose04 10.161.32.11(rw,root_squash) 10.161.32.12(rw,root_squash) 10.161.32.13(rw,root_squash) 10.161.32.14(rw,root_squash) 10.161.32.15(rw,root_squash)
+/exports/lv_ose05 10.161.32.11(rw,root_squash) 10.161.32.12(rw,root_squash) 10.161.32.13(rw,root_squash) 10.161.32.14(rw,root_squash) 10.161.32.15(rw,root_squash)
+/exports/lv_ose06 10.161.32.11(rw,root_squash) 10.161.32.12(rw,root_squash) 10.161.32.13(rw,root_squash) 10.161.32.14(rw,root_squash) 10.161.32.15(rw,root_squash)
+
+# Example syntax
+# for IP in `seq 11 15`; do echo "10.160.123.${IP}(rw,root_squash)"; done >> /etc/exports
+#/exports/xfer 10.160.123.0/24(rw,root_squash)
+
