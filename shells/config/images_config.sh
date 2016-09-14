@@ -13,7 +13,10 @@
 #
 
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> 43988bd5590e1d39e87ad520628990f0ede52ae3
 export base_images="
     registry.access.redhat.com/openshift3/ose-haproxy-router \
     registry.access.redhat.com/openshift3/ose-deployer \
@@ -36,6 +39,16 @@ export logging_metrics_images="
     registry.access.redhat.com/openshift3/metrics-cassandra \
     registry.access.redhat.com/openshift3/metrics-heapster"
 
+<<<<<<< HEAD
+
+export builder_images=$(cat ${CONFIG_PATH}/imageStream/image-streams-rhel7.json.${ose_version}|grep registry.access|cut -d: -f2|sed 's/"//g')
+
+export fis_images=$(cat ${CONFIG_PATH}/imageStream/fis-image-streams.json.${ose_version}|grep registry.access|cut -d: -f2|sed 's/,//g'|sed 's/"//g')
+export fis_tags=$(cat ${CONFIG_PATH}/imageStream/fis-image-streams.json.${ose_version} |jq '.items[].spec | {dockerImage: .dockerImageRepository, tag : .tags[].name}' |jq .|grep -v dockerImage |sed "s/[{,},\",tag:]//g"|sort|uniq)
+
+export jboss_images=$(cat ${CONFIG_PATH}/imageStream/jboss-image-streams.json.${ose_version}|grep registry.access|cut -d: -f2|sed 's/,//g'|sed 's/"//g')
+export jboss_tags=$(cat ${CONFIG_PATH}/imageStream/jboss-image-streams.json.${ose_version} |jq '.items[].spec | {dockerImage: .dockerImageRepository, tag : .tags[].name}' |jq .|grep -v dockerImage |sed "s/[{,},\",tag:]//g"|sort|uniq)
+=======
 #rhel7 image is using different name for each version
 # If there is no jq on system, you can download it
 # ftp://195.220.108.108/linux/fedora/linux/releases/22/Everything/x86_64/os/Packages/j/jq-1.3-4.fc22.x86_64.rpm
@@ -47,8 +60,14 @@ export fis_tags=$(cat ./imageStream/fis-image-streams.json.${ose_version} |jq '.
 
 export jboss_images=$(cat ./imageStream/jboss-image-streams.json.${ose_version}|grep registry.access|cut -d: -f2|sed 's/,//g'|sed 's/"//g')
 export jboss_tags=$(cat ./imageStream/jboss-image-streams.json.${ose_version} |jq '.items[].spec | {dockerImage: .dockerImageRepository, tag : .tags[].name}' |jq .|grep -v dockerImage |sed "s/[{,},\",tag:]//g"|sort|uniq)
+>>>>>>> 43988bd5590e1d39e87ad520628990f0ede52ae3
 
 
 export default_registry="registry.access.redhat.com"
 export new_docker_registry_url="sourcehub.ao.dcn:5000"
 
+<<<<<<< HEAD
+
+
+=======
+>>>>>>> 43988bd5590e1d39e87ad520628990f0ede52ae3

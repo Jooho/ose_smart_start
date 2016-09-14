@@ -1,3 +1,12 @@
+<<<<<<< HEAD
+
+# Definifition is in pv_config.sh
+
+export PV_NAME_PREFIX=pv
+export PV_SCRIPT_PATH=./test_pv_script
+export PV_ACCESS_MODE=ReadWriteMany
+export PV_RECLAIM_POLICY=Recycle
+=======
 #Definition
 #VOL_SIZE - The size of pv volume
 #PV_NAME_PREFIX - This is for pv name (refer following example)
@@ -22,6 +31,7 @@ export PV_NAME_PAD=0000 # pv0001
 export PV_RANGE_START=1
 export PV_RANGE_END=3
 export PV_SCRIPT_PATH=./test_pv_script
+>>>>>>> 43988bd5590e1d39e87ad520628990f0ede52ae3
 export PVC_NAME_PREFIX=pvc
 export PVC_ACCESS_MODE=ReadWriteMany
 export PVC_SCRIPT_PATH=./test_pvc_script

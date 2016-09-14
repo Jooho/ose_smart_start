@@ -15,12 +15,25 @@
 #        20160721        add images_config.sh
 #        20160801        Backup sbx
 #        20160802        Backup rhev
+<<<<<<< HEAD
+#        20160822        add checking jq package
+=======
+>>>>>>> 43988bd5590e1d39e87ad520628990f0ede52ae3
 #
 
 
 
 # Essecial package : nfs-util,bind-utils
 
+<<<<<<< HEAD
+# This is for calculating float value such as 3.2 - 3.1 = 0.1
+# Usage
+# old_ose_version=$(calc "$ose_version - 0.1")
+
+calc() { awk "BEGIN{print $*}"; }
+
+=======
+>>>>>>> 43988bd5590e1d39e87ad520628990f0ede52ae3
 
 #This function check if the hosts.${env} file exist.
 #      If not, generate_hosts_files.sh will be executed. The hosts.${env} file contains vm domain name.
@@ -124,6 +137,15 @@ fi
 if [[ ! -e ${ANSIBLE_PATH}/ansible_hosts-${ose_version}.${env} ]]; then
         echo "${ANSIBLE_PATH}/ansible_hosts-${ose_version}.${env} does not exist. Process stopped"
         exit 2
+<<<<<<< HEAD
+elif [[ $(rpm -aq|grep jq|wc -l) -eq 0 ]]; then 
+        echo " This script use jq command. Please install jq"
+        echo " sudo yum install jq -y"
+        echo " Manually you can download it : ftp://195.220.108.108/linux/fedora/linux/releases/22/Everything/x86_64/os/Packages/j/jq-1.3-4.fc22.x86_64.rpm"
+        echo " Also the file is in ${HOME_PATH}/shells/roles/internal-docker-regitstry"
+        exit 2
+=======
+>>>>>>> 43988bd5590e1d39e87ad520628990f0ede52ae3
 else
         echo "============================="
         echo "Pass configuration validation"
@@ -174,4 +196,7 @@ fi
 . ${CONFIG_PATH}/nfs_config.sh
 . ${CONFIG_PATH}/pv_config.sh
 . ${CONFIG_PATH}/images_config.sh
+<<<<<<< HEAD
+=======
 
+>>>>>>> 43988bd5590e1d39e87ad520628990f0ede52ae3

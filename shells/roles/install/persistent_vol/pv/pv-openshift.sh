@@ -2,6 +2,25 @@
 
 # This method create pv yaml script
 function create_pv_script(){
+<<<<<<< HEAD
+  VOL_NAME=$1
+  LVM_VOL_NAME=$2
+echo PV_RECLAIM_POLICY: ${PV_RECLAIM_POLICY}
+cat << EOF > ${PV_SCRIPT_PATH}/${VOL_NAME}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: "${VOL_NAME}"
+spec:
+  accessModes:
+  - ${PV_ACCESS_MODE}
+  capacity:
+    storage: ${LVM_VOL_SIZE}Gi
+  nfs:
+    path: ${NFS_MOUNT_POINT}/${LVM_VOL_NAME}
+    server: ${NFS_SERVER}
+  persistentVolumeReclaimPolicy: ${PV_RECLAIM_POLICY}
+=======
   #VOL_NAME=${PV_NAME_PREFIX}${c}
   VOL_NAME=$1
   LVM_VOL_NAME=$2
@@ -19,11 +38,16 @@ cat << EOF > ${PV_SCRIPT_PATH}/${VOL_NAME}
          path: "${NFS_MOUNT_POINT}/${LVM_VOL_NAME}"
          server: "${NFS_SERVER}"
          persistentVolumeReclaimPolicy: "Recycle"
+>>>>>>> 43988bd5590e1d39e87ad520628990f0ede52ae3
 EOF
   echo "Created def file for ${VOL_NAME}"
 }
 
+<<<<<<< HEAD
+#echo ${PV_RECLAIM_POLICY}
+=======
 
+>>>>>>> 43988bd5590e1d39e87ad520628990f0ede52ae3
 
 export exist_pv
 export created_pv_script
@@ -43,6 +67,37 @@ fi
 # 3. It will execute "oc create -f" with pv script
 # 4. Ask if the pv script and folder remain or not.
 
+<<<<<<< HEAD
+for c in $(seq -f "%0${#LVM_NAME_RANGE_PAD}g" ${LVM_RANGE_START} ${LVM_RANGE_END})
+do
+  #lvm vol name
+  FORMATTED_LVM_SIZE=$(seq -f "%0${#LVM_NAME_SIZE_PAD}g" ${LVM_VOL_SIZE} ${LVM_VOL_SIZE})
+  LVM_VOL_NAME="${LVM_NAME_PREFIX}${FORMATTED_LVM_SIZE}g${c}"
+
+  # pv name
+  PV_NAME="${PV_NAME_PREFIX}-${NFS_SERVER_TAG}-${LVM_VOL_NAME}"
+
+echo ""
+echo "FORMATTED_LVM_SIZE : $FORMATTED_LVM_SIZE"
+echo "FORMATTED_LVM_RANGE : $FORMATTED_LVM_RANGE"
+echo "LVM_VOL_NAME: $LVM_VOL_NAME"
+echo "PV_NAME: $PV_NAME"
+#exit 0
+  pv_exist=$(oc get pv |grep ${VOL_NAME} |wc -l)
+
+  if [[ $pv_exist == 1 ]]; then
+      echo "${PV_NAME} pv is already created so skip to create the persistent volume!!"
+      exist_pv=("${exist_pv[@]}" "${PV_NAME}")
+  else
+      echo "Creating ${VOL_NAME} pv script"
+      create_pv_script ${PV_NAME} ${LVM_VOL_NAME}
+      oc create -f ${PV_SCRIPT_PATH}/${PV_NAME}
+
+      check_pv_is_created=$(oc get pv|grep ${PV_NAME}|wc -l)
+
+      if [[ $check_pv_is_created == 1 ]]; then
+        created_pv_script=("${created_pv[@]}" "${PV_NAME}")
+=======
 for c in $(seq -f "%0${#PV_NAME_PAD}g" ${PV_RANGE_START} ${PV_RANGE_END})
 do
   # pv name
@@ -68,6 +123,7 @@ echo $LVM_VOL_NAME
 
       if [[ $check_pv_is_created == 1 ]]; then
         created_pv_script=("${created_pv[@]}" "${VOL_NAME}")
+>>>>>>> 43988bd5590e1d39e87ad520628990f0ede52ae3
       else
         echo "There were issues to create pv. Check user role"
       fi

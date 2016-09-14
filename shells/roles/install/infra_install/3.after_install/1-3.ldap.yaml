@@ -1,0 +1,20 @@
+ 
+    name: jenie
+    login: true
+    provider:
+      apiVersion: v1
+      kind: LDAPPasswordIdentityProvider
+      attributes:
+        id:
+        - dn
+        email:
+        - mail
+        name:
+        - cn
+        preferredUsername:
+        - uid
+      bindDN: uid=OpenShiftAdmin,ou=TSO,ou=applications,O=USCOURTS,C=US
+      bindPassword: "aqNWDDKk"
+      insecure: false
+      ca: ""
+      url: "ldaps://localhost:389/o=USCOURTS,c=US?uid"

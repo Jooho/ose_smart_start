@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+
+# Definition is in nfs_config.sh
+=======
 #This script is designed to execute on NFS server.
 
 
@@ -20,6 +24,7 @@
 #     LVM_RANGE_END should be 12
 #     LVM_VOL_SIZE should be 10  (without unit 'g')
 
+>>>>>>> 43988bd5590e1d39e87ad520628990f0ede52ae3
 
 export LVM_VOL_SIZE="2"
 export LVM_NAME_PREFIX=ose
@@ -32,3 +37,8 @@ export NFS_VG_NAME=vg_ose            #update(required)
 export NFS_LVM_BLOCK_DEV=          #update
 export NFS_BLOCK_DEV=sda               #update
 export NFS_SERVER="infra.example.com"  #update
+<<<<<<< HEAD
+export NFS_SERVER_TAG=infra
+
+=======
+>>>>>>> 43988bd5590e1d39e87ad520628990f0ede52ae3

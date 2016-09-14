@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Route
+metadata:
+  labels:
+    metrics-infra: support
+  name: cloudforms
+spec:
+  host: api.sbx.cloudapps.ao.dcn
+  tls:
+    termination: passthrough
+  to:
+    kind: Service
+    name: hawkular-metrics
+

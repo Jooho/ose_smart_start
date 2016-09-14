@@ -1,4 +1,22 @@
+<<<<<<< HEAD
+#!/bin/bash
+#
+#  Author: Jooho Lee(ljhiyh@gmail.com)
+#    Date: 2016.08.03
+# Purpose: This script create lvm on nfs for PV.
+#
+# History:
+#          Date      |   Changes
+#========================================================================
+#        20160803        update
+#        20160808        add /etc/exports 
+#
+#
+
+. ${CONFIG_PATH}/ose_config.sh
+=======
 . ../../../../config/ose_config.sh
+>>>>>>> 43988bd5590e1d39e87ad520628990f0ede52ae3
 
 export exist_lvm
 export created_lvm
@@ -32,6 +50,29 @@ EOF
 exit 0
 
 else
+<<<<<<< HEAD
+   if [[ z$NFS_LVM_BLOCK_DEV == z ]]; then
+       NFS_LVM_BLOCK_DEV=${NFS_BLOCK_DEV}5
+   fi
+
+   echo "Create pv : /dev/${NFS_LVM_BLOCK_DEV}"
+   pv_exist=$(pvs|grep /dev/${NFS_LVM_BLOCK_DEV}|wc -l)
+   if [[ $pv_exist == "0" ]]; then
+      echo "pvcreate /dev/${NFS_LVM_BLOCK_DEV}"
+      pvcreate /dev/${NFS_LVM_BLOCK_DEV}
+   else
+      echo "/dev/${NFS_LVM_BLOCK_DEV} exist"
+   fi
+
+   echo "Create vg : ${NFS_VG_NAME}"
+   vg_exist=$(vgs|grep ${NFS_VG_NAME}|wc -l)
+   if [[ $vg_exist == 0 ]]; then
+       vgcreate -s 16M ${NFS_VG_NAME} /dev/${NFS_LVM_BLOCK_DEV}   #(16M==> chunk size)
+   else
+      echo "${NFS_VG_NAME} exist"
+   fi
+    
+=======
    echo "Create pv : /dev/${NFS_BLOCK_DEV}5"
    pv_exist=$(sshpass -p $password ssh root@$NFS_SERVER "pvs|grep /dev/${NFS_BLOCK_DEV}5|wc -l")
    if [[ $pv_exist == "0" ]]; then
@@ -48,12 +89,23 @@ else
    else
        echo "ose-${NFS_SERVER_TAG}-vg exist"
    fi
+>>>>>>> 43988bd5590e1d39e87ad520628990f0ede52ae3
 fi
 
 
 for c in $(seq -f "%0${#LVM_NAME_RANGE_PAD}g" ${LVM_RANGE_START} ${LVM_RANGE_END})
 do
    FORMATTED_LVM_SIZE=$(seq -f "%0${#LVM_NAME_SIZE_PAD}g" ${LVM_VOL_SIZE} ${LVM_VOL_SIZE})
+<<<<<<< HEAD
+   LVM_VOL_NAME="${LVM_NAME_PREFIX}${FORMATTED_LVM_SIZE}g$c"
+
+   check_lvm_exist=$(lvs |grep ${LVM_VOL_NAME}|wc -l)
+   check_lvm_folder_exist=$(ls ${NFS_MOUNT_POINT}| grep ${LVM_VOL_NAME} |wc -l)
+  
+   if [[ $check_lvm_exist == 0 ]]; then
+       lvcreate -n ${LVM_VOL_NAME} -L ${LVM_VOL_SIZE}G ${NFS_VG_NAME}
+       mkfs.xfs /dev/${NFS_VG_NAME}/${LVM_VOL_NAME}
+=======
    LVM_VOL_NAME="ose-${NFS_SERVER_TAG}-${LVM_NAME_PREFIX}${FORMATTED_LVM_SIZE}g$c"
 
    check_lvm_exist=$(sshpass -p $password ssh root@$NFS_SERVER "lvs |grep ${LVM_VOL_NAME}|wc -l")
@@ -62,6 +114,7 @@ do
    if [[ $check_lvm_exist == 0 ]]; then
        sshpass -p $password ssh root@$NFS_SERVER "lvcreate -n ${LVM_VOL_NAME} -L ${LVM_VOL_SIZE}G ose-${NFS_SERVER_TAG}-vg"
        sshpass -p $password ssh root@$NFS_SERVER "mkfs.xfs /dev/ose-${NFS_SERVER_TAG}-vg/${LVM_VOL_NAME}"
+>>>>>>> 43988bd5590e1d39e87ad520628990f0ede52ae3
 
        created_lvm=("${created_lvm[@]}" "${LVM_VOL_NAME}")
    else
@@ -71,22 +124,39 @@ do
   
    if [[ $check_lvm_folder_exist == 0 ]]; then
        echo "create folder : ${NFS_MOUNT_POINT}/${LVM_VOL_NAME}"
+<<<<<<< HEAD
+       mkdir -p ${NFS_MOUNT_POINT}/${LVM_VOL_NAME} 
+       created_nfs_folder=("${created_nfs_folder[@]}" "${LVM_VOL_NAME}")
+       echo "/dev/${NFS_VG_NAME}/${LVM_VOL_NAME} ${NFS_MOUNT_POINT}/${LVM_VOL_NAME}  xfs defaults 0 0" >> /etc/fstab
+       echo "${NFS_MOUNT_POINT}/${LVM_VOL_NAME}  *(rw,root_squash,no_wdelay)" >> /etc/exports
+
+=======
       sshpass -p $password ssh root@$NFS_SERVER " mkdir -p ${NFS_MOUNT_POINT}/${LVM_VOL_NAME} "
        created_nfs_folder=("${created_nfs_folder[@]}" "${LVM_VOL_NAME}")
+>>>>>>> 43988bd5590e1d39e87ad520628990f0ede52ae3
    else
        echo "${NFS_MOUNT_POINT}/${LVM_VOL_NAME} exist"
        exist_nfs_folder=("${exist_nfs_folder[@]}" "${LVM_VOL_NAME}")
    fi
   
+<<<<<<< HEAD
+=======
    sshpass -p $password ssh root@$NFS_SERVER "echo \"/dev/ose-${NFS_SERVER_TAG}-vg/${LVM_VOL_NAME} ${NFS_MOUNT_POINT}/${LVM_VOL_NAME}  xfs defaults,unconfined_u:object_r:admin_home_t:s0 0 0\" >> /etc/fstab"
+>>>>>>> 43988bd5590e1d39e87ad520628990f0ede52ae3
 done
 
 echo ""
 echo "Do you want to mount all?(y/n)"
 read mount
 if [[ $mount == y ]]; then
+<<<<<<< HEAD
+  chmod 777 -R ${NFS_MOUNT_POINT} 
+  chown nfsnobody.nfsnobody -R ${NFS_MOUNT_POINT}
+  mount -a 
+=======
   sshpass -p $password ssh root@$NFS_SERVER " chmod 777 -R ${NFS_MOUNT_POINT} "
   sshpass -p $password ssh root@$NFS_SERVER " mount -a "
+>>>>>>> 43988bd5590e1d39e87ad520628990f0ede52ae3
 fi
 
 echo ""
