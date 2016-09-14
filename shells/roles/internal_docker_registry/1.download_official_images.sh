@@ -19,16 +19,11 @@
 
 docker images
 echo "Before you execute it, please make sure there are no images when you execute 'docekr images'"
-<<<<<<< HEAD
 echo ""
 echo "If there are some images, please delete them all"
 echo ""
 echo "Command to delete all images : for image in $(docker images|awk '{print $1}'); do docker rmi $image ; done"
 echo ""
-=======
-echo "If there are some images, please delete them all"
-echo "Command to delete all images : for image in $(docker images|awk '{print $1}'); do docker rmi $image ; done"
->>>>>>> 43988bd5590e1d39e87ad520628990f0ede52ae3
 
 export correct_answer="false"
 while [ $correct_answer == "false" ]
@@ -41,17 +36,12 @@ do
         elif [[ $continue_work == "n" ]]; then
            echo "** STOP **"
            exit 1
-<<<<<<< HEAD
-=======
-        fi
->>>>>>> 43988bd5590e1d39e87ad520628990f0ede52ae3
         else
            echo "Please choose y or n only."
         fi
 done
 
 # It will pull only latest tag of all images
-<<<<<<< HEAD
 for image in $base_images 
 do 
               docker pull $image:${image_version}
@@ -78,19 +68,3 @@ do
               docker pull $image:${tag}
      done
 done
-=======
-for image in $base_images $logging_metrics_images $builder_images ${xpaas_images}
-do 
-              docker pull $image 
-done
-
-# xpaas images are using tag for each version. For example, openshift 3.1.6 need 1.0/1.1/1.2
-# It will download some specific tags of images and it could show errors like there is no such image:tag. Please ignore it.
-for image in ${xpaas_images}
-do 
-              docker pull $image:1.0 
-              docker pull $image:1.1
-              docker pull $image:1.2 
-done
-
->>>>>>> 43988bd5590e1d39e87ad520628990f0ede52ae3

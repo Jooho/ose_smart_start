@@ -2,7 +2,6 @@
 #
 #  Author: Jooho Lee(ljhiyh@gmail.com)
 #    Date: 2016.05.25
-<<<<<<< HEAD
 # Purpose: Check whether VMs are ready to install OpenShift Container Platform
 #          Validate DNS / Validate yum repolist / Validate docker storage / Validate persistent volume
 #
@@ -13,11 +12,6 @@
 #
 #
 #
-=======
-# Purpose: Check whether VMs are ready to install
-#          Validate DNS / Validate yum repolist / Validate docker storage / Validate persistent volume
-
->>>>>>> 43988bd5590e1d39e87ad520628990f0ede52ae3
 
 # Included scripts:
 #
@@ -49,14 +43,9 @@
 
 . $CONFIG_PATH/ose_config.sh
 
-<<<<<<< HEAD
 cd $HOME_PATH/; cd ..
 tar cvf ./ose_smart_start.tar ./ose_smart_start
 exit 0
-=======
-#cd $HOME_PATH/; cd ..
-#tar cvf ./ose_smart_start.tar ./ose_smart_start
->>>>>>> 43988bd5590e1d39e87ad520628990f0ede52ae3
 #for HOST in `grep -v \# $CONFIG_PATH/$host_file | awk '{ print $1 }'`;
 do
 

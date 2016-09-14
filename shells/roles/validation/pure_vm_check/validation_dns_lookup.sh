@@ -8,7 +8,6 @@
 #               - router (ex, *.${env}.${subdomain})
 #               - openshift_master_cluster_public_hostname (ex, api.${env}.${subdomain} ) 
 #               - openshift_master_cluster_hostname (ex, aoappd-cluster.${env}.${subdomain}) 
-<<<<<<< HEAD
 # History:
 #          Date      |   Changes
 #========================================================================
@@ -17,15 +16,12 @@
 #
 #
 
-=======
->>>>>>> 43988bd5590e1d39e87ad520628990f0ede52ae3
 
 . ${CONFIG_PATH}/ose_config.sh 
 
 export success
 export fail
 export all_hosts_count=0
-<<<<<<< HEAD
 
 if [[ $debug == "true" ]];then
   echo "#### DEBUG ####"
@@ -36,12 +32,6 @@ if [[ $debug == "true" ]];then
 fi
 
 #Check all host domain names(masters/etcd/nodes)
-=======
-#echo $all_hosts
-#echo $all_ip
-
-#Check all host domain nanmes
->>>>>>> 43988bd5590e1d39e87ad520628990f0ede52ae3
 for host in $all_hosts
 do
   all_hosts_count=$((all_hosts_count + 1))
@@ -53,10 +43,6 @@ do
      success=("${success[@]}" "${host}")
     elif [[ $(echo ${fail[@]} |grep $host |wc -l) -eq 0 ]] ;
     then 
-<<<<<<< HEAD
-=======
-    #     echo "fail : $host"
->>>>>>> 43988bd5590e1d39e87ad520628990f0ede52ae3
          fail=("${fail[@]}" "${host}")
     fi
 
@@ -70,7 +56,6 @@ do
 done
 
 # Check router domain
-<<<<<<< HEAD
 
 if [[ $debug == "true" ]];then
    echo "#### DEBUG ####"
@@ -81,16 +66,10 @@ if [[ $debug == "true" ]];then
    echo ""
 fi
 
-=======
->>>>>>> 43988bd5590e1d39e87ad520628990f0ede52ae3
 router_result=$(dig a.${subdomain}|grep -A2 "ANSWER SECTION")
 if [[ $? == 0 ]]; then
  success=("${success[@]}" "*.${subdomain}")
 else
-<<<<<<< HEAD
-=======
-# echo "fail : *.${subdomain}"
->>>>>>> 43988bd5590e1d39e87ad520628990f0ede52ae3
  fail=("${fail[@]}" "*.${subdomain}")
 fi
 
@@ -98,35 +77,21 @@ fi
 if [[ $(echo $all_hosts |grep $openshift_master_cluster_public_hostname |wc -l) -eq 0 ]];then 
   public_cm_host_result=$(dig $openshift_master_cluster_public_hostname |grep -A2 "ANSWER SECTION") 
   if [[ $? == 0 ]]; then
-<<<<<<< HEAD
     success=("${success[@]}" "${openshift_master_cluster_public_hostname}")
   else
-=======
-    success=("${success[@]}" "${host}")
-  else
-#    echo "fail : $openshift_master_cluster_public_hostname"
->>>>>>> 43988bd5590e1d39e87ad520628990f0ede52ae3
     fail=("${fail[@]}" "$openshift_master_cluster_public_hostname")
   fi
 else
    public_cm_host_result="This domain is already tested" #duplicated url
 fi
 
-<<<<<<< HEAD
 # Check master_cluster_hostname
-=======
-# Check openshift_master_cluster_hostname
->>>>>>> 43988bd5590e1d39e87ad520628990f0ede52ae3
 if [[ $(echo $all_hosts |grep $openshift_master_cluster_hostname |wc -l) -eq 0 ]];
 then 
   cm_result=$(dig $openshift_master_cluster_hostname |grep -A2 "ANSWER SECTION") 
   if [[ $? == 0 ]]; then
    success=("${success[@]}" "${openshift_master_cluster_hostname}")
   else
-<<<<<<< HEAD
-=======
-#   echo "fail : $openshift_master_cluster_hostname"
->>>>>>> 43988bd5590e1d39e87ad520628990f0ede52ae3
    fail=("${fail[@]}" "$openshift_master_cluster_hostname")
   fi
 else

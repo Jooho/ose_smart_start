@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 . $CONFIG_PATH/ose_config.sh
-=======
-. ../ose_config.sh
->>>>>>> 43988bd5590e1d39e87ad520628990f0ede52ae3
 
 echo "Add user "joe" to OSE"
 echo "---------------------"

@@ -15,11 +15,7 @@
 
 . $CONFIG_PATH/ose_config.sh
 
-<<<<<<< HEAD
 for image in ${base_images} ${logging_metrics_images} ${builder_images} ${fis_images} ${jboss_images}
-=======
-for image in ${base_images} ${logging_metrics_images} ${builder_images} ${xpaas_images}
->>>>>>> 43988bd5590e1d39e87ad520628990f0ede52ae3
 do
 
        for tag in $(docker images |grep $image |awk '{print $1 "/" $2}')

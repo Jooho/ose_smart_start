@@ -78,11 +78,8 @@ export docker_registry_route_url=registry.cloudapps.example.com     # Update
 export docker_registry_nfs_mount_point=ose-registry                 # Update(if you will use nfs direct mount to docker registry.)
 export docker_registry_svc_ip=172.30.0.2                          # Update
 export squid_svc_ip=172.30.0.4                                      # Update
-<<<<<<< HEAD
 export squid_http_proxy_ip=10.20.30.40                              # Update
 export squid_http_proxy_port=8080                                     # Update
-=======
->>>>>>> 43988bd5590e1d39e87ad520628990f0ede52ae3
 export ose_temp_dir=/root/ose/usc-docs                     # Update
 #docker image version
 #export image_version=v3.1.1.6                                       # Update

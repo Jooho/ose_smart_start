@@ -12,13 +12,8 @@
 #NFS_BLOCK_DEV - NFS block device name for openshift pv
 
 # Example
-<<<<<<< HEAD
 #  Suppose you want to create ose0010g001 to ose0010g012
 #     LVM_NAME_PREFIX should be ose
-=======
-#  Suppose you want to create ose-infra-pv0010g001 to ose-infra-pv0010g012
-#     LVM_NAME_PREFIX should be pv
->>>>>>> 43988bd5590e1d39e87ad520628990f0ede52ae3
 #     LVM_NAME_SIZE_PAD should be 0000
 #     LVM_NAME_RANGE_PAD should be 000
 #     LVM_RANGE_START should be 1
@@ -37,8 +32,5 @@ export NFS_VG_NAME=vg_ose            #update(required)
 export NFS_LVM_BLOCK_DEV=          #update
 export NFS_BLOCK_DEV=sda               #update
 export NFS_SERVER="infra.example.com"  #update
-<<<<<<< HEAD
 export NFS_SERVER_TAG=infra
 
-=======
->>>>>>> 43988bd5590e1d39e87ad520628990f0ede52ae3
