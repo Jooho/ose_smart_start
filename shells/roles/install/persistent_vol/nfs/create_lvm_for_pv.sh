@@ -94,7 +94,8 @@ do
        created_nfs_folder=("${created_nfs_folder[@]}" "${LVM_VOL_NAME}")
        echo "/dev/${NFS_VG_NAME}/${LVM_VOL_NAME} ${NFS_MOUNT_POINT}/${LVM_VOL_NAME}  xfs defaults 0 0" >> /etc/fstab
        echo "${NFS_MOUNT_POINT}/${LVM_VOL_NAME}  *(rw,root_squash,no_wdelay)" >> /etc/exports
-
+       chmod 777 -R ${NFS_MOUNT_POINT} 
+       chown nfsnobody.nfsnobody -R ${NFS_MOUNT_POINT}
    else
        echo "${NFS_MOUNT_POINT}/${LVM_VOL_NAME} exist"
        exist_nfs_folder=("${exist_nfs_folder[@]}" "${LVM_VOL_NAME}")
@@ -106,8 +107,6 @@ echo ""
 echo "Do you want to mount all?(y/n)"
 read mount
 if [[ $mount == y ]]; then
-  chmod 777 -R ${NFS_MOUNT_POINT} 
-  chown nfsnobody.nfsnobody -R ${NFS_MOUNT_POINT}
   mount -a 
 fi
 

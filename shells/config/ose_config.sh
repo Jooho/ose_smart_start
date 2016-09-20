@@ -132,9 +132,10 @@ fi
 if [[ ! -e ${ansible_file_path}/ansible_hosts-${ose_version}.${env} ]]; then
         echo "${ansible_file_path}/ansible_hosts-${ose_version}.${env} does not exist. Process stopped"
         exit 2
-elif [[ $(rpm -aq|grep jq|wc -l) -eq 0 ]]; then 
+elif [[ $(jq -V|grep jq|wc -l) -eq 0 ]]; then 
         echo " This script use jq command. Please install jq"
-        echo " sudo yum install jq -y"
+        echo " For RHEL/CENTOS : sudo yum install jq -y"
+        echo " For MAC : brew install jq"
         echo " Manually you can download it : ftp://195.220.108.108/linux/fedora/linux/releases/22/Everything/x86_64/os/Packages/j/jq-1.3-4.fc22.x86_64.rpm"
         echo " Also the file is in ${HOME_PATH}/shells/roles/internal-docker-regitstry"
         exit 2

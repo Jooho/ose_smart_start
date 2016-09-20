@@ -52,7 +52,7 @@ do
 done
 
 echo ""
-echo " The new images are stored in $diff_images.txt.temp file "
+echo " The new images are stored in $diff_images file "
 echo " You have to create group/projects in gitlab according to the result images before move on "
 echo ""
   

@@ -5,7 +5,7 @@
 # Purpose: Generate private key/csr file/crt file(Self Signed Certificate)
 #
 # Config file : $CONFIG_PATH/cert_config.sh
-#               The CN will looks like : ${host}.${env}.${subdomain}
+#               The CN will looks like : ${COMMONNAME}
 #               Example : healthcheck-https.pnp.cloudapps.ao.dcn
 #                         (${env} and ${subdomain} are in ose_config.sh)
 # History:
@@ -16,9 +16,36 @@
 #
 #
 
+usage() {
+  echo ""
+  echo "Usage"
+  echo "$0 <CertObj> <ENV|HOSTNAME>"
+  echo "$0 api pnp  ==> api.pnp.cloudapps.ao.dcn"
+  echo "$0 star pnp ==> *.pnp.cloudapps.ao.dcn"
+  echo "$0 uniq sourcehub.ao.dcn ==> sourcehub.ao.dcn"
+  if [[ -n $ERR ]]
+  then
+    echo ""
+    echo "ERROR:  ${ERR}"
+  fi
+  exit 9
+}
+if [ $# -ne 2 ]
+then
+  usage
+fi
+
+HOST=${1}
+ENV=${2}
+DOMAIN=cloudapps.example.com
+COMMONNAME="${HOST}.${ENV}.${DOMAIN}"
+FILENAME="${HOST}.${ENV}.${DOMAIN}"
 
 
-cat << EOF > ${host}.${env}.${subdomain}.openssl-conf
+
+
+
+cat << EOF > ${COMMONNAME}.openssl-conf
 [req]
 distinguished_name = req_distinguished_name
 req_extensions = v3_req
@@ -30,16 +57,16 @@ stateOrProvinceName = District of Columbia
 stateOrProvinceName_default = District of Columbia 
 localityName = Washington
 localityName_default = Washington
-organizationName = Administrative Office of the United States Courts
-organizationName_default = Administrative Office of the United States Courts
-organizationalUnitName = AOUSC
-organizationalUnitName_default = AOUSC
-commonName = ${host}.${env}.${subdomain}
-commonName_default = ${host}.${env}.${subdomain}
+organizationName = Red Hat
+organizationName_default = Red Hat
+organizationalUnitName = PaaS Practice
+organizationalUnitName_default = PaaS Practice
+commonName = ${COMMONNAME}
+commonName_default = ${COMMONNAME}
 commonName_max  = 64
 
-emailAddress = ose_pilot@ao.uscourts.gov
-emailAddress_default = ose_pilot@ao.uscourts.gov
+emailAddress = ose_pilot@redhat.com
+emailAddress_default = ose_pilot@redhat.com
 
 [req_attributes]
 challengePasssword	= 'RedH@tOs3'
@@ -51,20 +78,20 @@ keyUsage = nonRepudiation, digitalSignature, keyEncipherment
 subjectAltName = @alt_names
 
 [alt_names]
-DNS.1 = ${host}.${env}.${subdomain}
-DNS.2 = aoappd-e-mgt004.ctho.asbn.gtwy.dcn
-DNS.3 = aoappd-e-mgt005.ctho.asbn.gtwy.dcn
-DNS.4 = aoappd-e-mgt006.ctho.asbn.gtwy.dcn
+DNS.1 = ${COMMONNAME}
+DNS.2 = master1.example.com
+DNS.3 = master2.example.com
+DNS.4 = master3.example.com
 EOF
 
-if [[ -e ${host}.${env}.${subdomain}.key ]] || [[ -e ${host}.${env}.${subdomain}.csr ]] || [[ -e ${host}.${env}.${subdomain}.crt ]]; then
+if [[ -e ${COMMONNAME}.key ]] || [[ -e ${COMMONNAME}.csr ]] || [[ -e ${COMMONNAME}.crt ]]; then
   echo "There are already generaged files so please check it first.. don't want to mess up"
   exit 9
 else
-  openssl genrsa -out ${host}.${env}.${subdomain}.key 2048
-  openssl req -new -out ${host}.${env}.${subdomain}.csr -key ${host}.${env}.${subdomain}.key -config ${host}.${env}.${subdomain}.openssl-conf
-  openssl req -text -noout -in ${host}.${env}.${subdomain}.csr
-  openssl x509 -req -days 3650 -in ${host}.${env}.${subdomain}.csr -signkey ${host}.${env}.${subdomain}.key -out ${host}.${env}.${subdomain}.crt -extensions v3_req -extfile ${host}.${env}.${subdomain}.openssl-conf
+  openssl genrsa -out ${COMMONNAME}.key 2048
+  openssl req -new -out ${COMMONNAME}.csr -key ${COMMONNAME}.key -config ${COMMONNAME}.openssl-conf
+  openssl req -text -noout -in ${COMMONNAME}.csr
+  openssl x509 -req -days 3650 -in ${COMMONNAME}.csr -signkey ${COMMONNAME}.key -out ${COMMONNAME}.crt -extensions v3_req -extfile ${COMMONNAME}.openssl-conf
 
   exit 0
 fi

@@ -67,7 +67,7 @@ echo " Create CRT file"
 openssl x509 -req -in ${HOST_NAME}.csr  -CA ${CA_CERT_FILE} -CAkey ${PRIVATE_KEY_FILE} -CAserial ${SERIAL_FILE} -out ${HOST_NAME}.crt -days 500
 
 ## Call generate_route.sh to create json file
-../../install/generate_route.sh hello-openshift ${HOST_NAME} ${HOST_NAME}.key  ${HOST_NAME}.crt ${CA_CERT_FILE}
+../../ad-hoc/route/generate_route.sh hello-openshift ${HOST_NAME} ${HOST_NAME}.key  ${HOST_NAME}.crt ${CA_CERT_FILE}
 
 # Start creating objects : DC/SVC/ROUTE
 ## Create DC

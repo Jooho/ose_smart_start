@@ -86,8 +86,8 @@ export ose_temp_dir=/root/ose/usc-docs                     # Update
 export image_version=v3.2.1.9                                       # Update
 
 #Custom path
-export pre_requite_path=ose_smart_start/shells/roles/install/Custom/1.pre_requite
-export after_install_path=ose_smart_start/shells/roles/install/Custom/2.after_install
+export pre_requite_path=ose_smart_start/shells/roles/install/infra_install/1.pre_requite
+export after_install_path=ose_smart_start/shells/roles/install/infra_install/2.after_install
 
 #Satellite
 export satellite_server='sat62.example.com'
