@@ -1,5 +1,5 @@
-	OpenShift Container Platform Smart Start
-==================================
+OpenShift Container Platform Smart Start
+---
 
 This project is started to gather useful OCP commands for Smart Start. During real engagement, this script can be used from pre-requisite to deploy metrics. Such as certs files and password must be managed in private repository. Hence, it provides the way to separate some private stuff from main project using custom project.
 
