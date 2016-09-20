@@ -16,7 +16,7 @@ In order to use this script, configuration files should be updated according to 
 - image_config.sh       
 	- External docker registry related values in disconnected environment
 
-It is recommended to use independent vm only for Ansible playbook. Moreover, if it is possible, root use is prefered for installation OCP.  
+It is recommended to use independent vm only for Ansible playbook. Moreover, if it is possible, root user is prefered for installation OCP.  
 ## Ready to use script 
 	# git clone https://github.com/jooho/ose_smart_start
 	
