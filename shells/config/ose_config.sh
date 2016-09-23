@@ -105,9 +105,9 @@ fi
 function validate_config(){
 if [[ ! -e ${host_file_path}/${host_file} ]]; then
         if [[ $subdomain != $host_subdomain ]]; then
-             ${CONFIG_PATH}/generate_hosts_file.sh $host_subdomain $host_file $ose_version $env
+             ${CONFIG_PATH}/generate_hosts_file.sh $host_subdomain $host_file $ose_version $env $ansible_file_path $ansible_hosts
         else
-             ${CONFIG_PATH}/generate_hosts_file.sh $subdomain $host_file $ose_version $env
+             ${CONFIG_PATH}/generate_hosts_file.sh $subdomain $host_file $ose_version $env $ansible_file_path $ansible_hosts
         fi
 
         echo "INFO: ${host_file_path}/${host_file} does not exist so ${CONFIG_PATH}/generate_hosts_file.sh is executed"
@@ -129,10 +129,10 @@ if [[ -e ${host_file_path}/${host_file} ]]; then
 
 fi
 
-if [[ ! -e ${ansible_file_path}/ansible_hosts-${ose_version}.${env} ]]; then
-        echo "${ansible_file_path}/ansible_hosts-${ose_version}.${env} does not exist. Process stopped"
+if [[ ! -e ${ansible_file_path}/${ansible_hosts} ]]; then
+        echo "${ansible_file_path}/${ansible_hosts} does not exist. Process stopped"
         exit 2
-elif [[ $(jq -V|grep jq|wc -l) -eq 0 ]]; then 
+elif [[ $( rpm -qa|grep jq|wc -l) -eq 0 ]]; then 
         echo " This script use jq command. Please install jq"
         echo " For RHEL/CENTOS : sudo yum install jq -y"
         echo " For MAC : brew install jq"

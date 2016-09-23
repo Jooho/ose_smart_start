@@ -27,14 +27,14 @@ fi
 # os3@dm1n
 
 # Copy ssh key 
-for HOST in `cat  $CONFIG_PATH/$host_file | awk '{ print $1 }'`
+for HOST in `cat  ${host_file_path}/${host_file} | awk '{ print $1 }'`
 do
 	ssh-copy-id -i ~/.ssh/id_rsa.pub -o StrictHostKeyChecking=no $HOST
 done
 
 
 # Test ssh connection establishment without password
-for HOST in `cat  $CONFIG_PATH/$host_file | awk '{ print $1 }'`
+for HOST in `cat  ${host_file_path}/${host_file} | awk '{ print $1 }'`
 do 
 	ssh -q $HOST "uptime"
 done

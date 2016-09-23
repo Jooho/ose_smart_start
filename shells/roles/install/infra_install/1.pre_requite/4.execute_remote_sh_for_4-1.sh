@@ -24,7 +24,7 @@
 
 
 ####################### Subscribe hosts to Satellite 6 ##############
-for HOST in `grep -v \# $CONFIG_PATH/$host_file | awk '{ print $2 }'`
+for HOST in `grep -v \# ${host_file_path}/${host_file} | awk '{ print $2 }'`
 do
 	ssh -q root@${HOST} "sh ${ose_temp_dir}/${pre_requite_path}/4-1.satellite_subscription.sh" 
 done

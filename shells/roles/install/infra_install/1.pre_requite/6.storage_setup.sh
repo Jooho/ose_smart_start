@@ -89,7 +89,7 @@ EOF
 
 
 # CONFIGURE THE DEVICE DEPENDING ON WHAT HOST IT IS
-for HOST in `grep -v \# $CONFIG_PATH/$host_file | awk '{ print $1 }'`; 
+for HOST in `grep -v \# ${host_file_path}/${host_file} | awk '{ print $1 }'`; 
 do
   if [[ $HOST =~ $master_prefix ]]; then
       echo "NOTE: found $HOST"

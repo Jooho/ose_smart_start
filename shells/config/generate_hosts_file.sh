@@ -17,13 +17,15 @@ export subdomain=$1
 export host_file=$2
 export ose_version=$3
 export env=$4
+export ansible_file_path=$5
+export ansible_hosts=$6
 subhostname=$( echo $subdomain | awk  -F'.' '{print $2 "." $3}' )  # example.com
 #Debug log
 #echo $subhostname
 #echo $host_file
 #echo $ose_version
 #echo $env
-all_hostnames=$(grep ${subhostname} $ANSIBLE_PATH/ansible_hosts-${ose_version}.${env} |grep -v ^# |sort | uniq)
+all_hostnames=$(grep ${subhostname} ${ansible_file_path}/${ansible_hosts} |grep -v ^# |sort | uniq)
 touch "./${host_file}_unsorted"
 touch "./${host_file}_extra_hostname"
 touch "./${host_file}"
@@ -63,6 +65,7 @@ done
 # Summarize temp files to $host_file
 cat "./${host_file}_unsorted"|sort|uniq >> ./$host_file
 cat "./${host_file}_extra_hostname" >> ./$host_file
+mv ${host_file} $( ls -al |grep custom|awk '{print $NF}')
 #Clean temp files
 rm "./${host_file}_unsorted"
 rm "./${host_file}_extra_hostname" 

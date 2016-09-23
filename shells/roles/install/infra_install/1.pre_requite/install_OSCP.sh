@@ -24,7 +24,7 @@ log_path=~/.ansible.log
 EOF
 
 # Last Check before install Openshift Container Platform
-for HOST in `cat $CONFIG_PATH/$host_file | awk '{ print $1 }'`
+for HOST in `cat ${host_file_path}/${host_file} | awk '{ print $1 }'`
 do 
 	ssh -q root@$HOST "uptime"
 done

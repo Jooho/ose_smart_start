@@ -26,7 +26,7 @@
 
 
 # Execute #2 script on each vm
-for HOST in `grep -v \# $CONFIG_PATH/$host_file | awk '{ print $2 }'`; 
+for HOST in `grep -v \# ${host_file_path}/${host_file} | awk '{ print $2 }'`; 
 do 
 	ssh ${HOST} -t "/usr/bin/sudo ${ose_temp_dir}/${pre_requite_path}/3-1.change_ssh_conf_allow_root_user.sh" ; 
 done
@@ -34,7 +34,7 @@ done
 if [[ $enable_sudo == true ]]; then
 	# Now test - you should no longer need a password
 	echo "***check if sudo works***"
-	for HOST in `grep -v \# $CONFIG_PATH/$host_file | awk '{ print $1 }'`
+	for HOST in `grep -v \# ${host_file_path}/${host_file} | awk '{ print $1 }'`
 	do
 		ssh -q -t ${con_user}@${HOST} '/usr/bin/sudo su - -c "grep ${con_user} /etc/shadow"' 
 	done
@@ -42,7 +42,7 @@ if [[ $enable_sudo == true ]]; then
 fi
 
 echo "***check if root user can access****"
-for HOST in `grep -v \# $CONFIG_PATH/$host_file | awk '{ print $1 }'`
+for HOST in `grep -v \# ${host_file_path}/${host_file} | awk '{ print $1 }'`
 do 
 	ssh -q -t root@${HOST} "grep ${con_user} /etc/shadow"
 done

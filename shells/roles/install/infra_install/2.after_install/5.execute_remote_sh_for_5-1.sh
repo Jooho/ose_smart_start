@@ -24,7 +24,7 @@
 
 . $CONFIG_PATH/ose_config.sh
 
-for HOST in `grep -v \# $CONFIG_PATH/$host_file | awk '{ print $2 }'`
+for HOST in `grep -v \# ${host_file_path}/${host_file} | awk '{ print $2 }'`
 do
         ssh -q root@${HOST} "sh ${ose_temp_dir}/${after_install_path}/5-1.import_court_cert.sh  
 done
