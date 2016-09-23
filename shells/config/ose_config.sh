@@ -158,6 +158,9 @@ fi
 #             If you specify env, the subdomain will contains ${env} like ${env}.${subdomain}
 # host_subdomain : VM host subdomain name (If subdoamin is different from host name, this variable can be used)
 
+#enable_sudo : if ${con_user} is in suders without PASSWD, it should be "true"
+#con_user : user name who will be used for ssh connection
+#password : password for ssh user
 # yum_repolist : essential repositories to install Openshift
 # password : password for root (But if ssh does not allow to access with root user, this variable is useless)
 # node_prefix : prefix which indicate nodes
@@ -185,7 +188,7 @@ fi
 
 
 
-. ${CONFIG_PATH}/custom/ose_config.sh.sbx
-. ${CONFIG_PATH}/custom/nfs_config.sh.sbx
-. ${CONFIG_PATH}/custom/pv_config.sh.sbx
+. ${CONFIG_PATH}/custom/ose_config.sh.prd
+. ${CONFIG_PATH}/custom/nfs_config.sh.prd
+. ${CONFIG_PATH}/custom/pv_config.sh.prd
 . ${CONFIG_PATH}/images_config.sh

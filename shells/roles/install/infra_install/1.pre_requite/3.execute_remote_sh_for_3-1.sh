@@ -32,14 +32,13 @@ do
 done
 
 if [[ $enable_sudo == true ]]; then
-# Now test - you should no longer need a password
-echo "***check if sudo works***"
-for HOST in `grep -v \# $CONFIG_PATH/$host_file | awk '{ print $1 }'`
-do
-	ssh -q -t ${con_user}@${HOST} '/usr/bin/sudo su - -c "grep ${con_user} /etc/shadow"' 
-done
-
-echo ""
+	# Now test - you should no longer need a password
+	echo "***check if sudo works***"
+	for HOST in `grep -v \# $CONFIG_PATH/$host_file | awk '{ print $1 }'`
+	do
+		ssh -q -t ${con_user}@${HOST} '/usr/bin/sudo su - -c "grep ${con_user} /etc/shadow"' 
+	done
+	echo ""
 fi
 
 echo "***check if root user can access****"
