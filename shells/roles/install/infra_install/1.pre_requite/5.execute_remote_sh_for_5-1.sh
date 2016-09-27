@@ -24,7 +24,7 @@
 
 . $CONFIG_PATH/ose_config.sh
 
-for HOST in `grep -v \# ${host_file_path}/${host_file} | awk '{ print $2 }'`
+for HOST in `grep -v \# ${host_file_path}/${host_file} | awk '{ print $1 }'`
 do
         echo "ssh -q root@${HOST} sh ${ose_temp_dir}/${pre_requite_path}/5-1.install_essential_packages.sh"
         ssh -q root@${HOST} "sh ${ose_temp_dir}/${pre_requite_path}/5-1.install_essential_packages.sh"

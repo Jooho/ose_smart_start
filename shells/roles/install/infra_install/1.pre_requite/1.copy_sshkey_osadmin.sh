@@ -29,12 +29,12 @@ fi
 # Copy ssh key 
 for HOST in `cat  ${host_file_path}/${host_file} | awk '{ print $1 }'`
 do
-	ssh-copy-id -i ~/.ssh/id_rsa.pub -o StrictHostKeyChecking=no $HOST
+	ssh-copy-id -i ~/.ssh/id_rsa.pub -o StrictHostKeyChecking=no ${con_user}@$HOST
 done
 
 
 # Test ssh connection establishment without password
 for HOST in `cat  ${host_file_path}/${host_file} | awk '{ print $1 }'`
 do 
-	ssh -q $HOST "uptime"
+	ssh -q ${con_user}@$HOST "uptime"
 done

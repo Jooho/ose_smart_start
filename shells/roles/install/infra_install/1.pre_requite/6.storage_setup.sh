@@ -33,7 +33,7 @@ storage_etcd()
 #######
 echo "NOTE: Updating Storage on $HOST"
 cat << EOF > do_storage.sh
-parted -s /dev/sdb mklabel gpt mkpart pri ext3 2048s 100% set 1 lvm on
+#parted -s /dev/sdb mklabel gpt mkpart pri ext3 2048s 100% set 1 lvm on
 pvcreate /dev/sdb1
 vgcreate vg_ose /dev/sdb1
 lvcreate -y -nlv_etcd -l100%FREE vg_ose
@@ -57,10 +57,10 @@ storage_master()
 {
 # OpenShift Storage followed by Docker
 cat << EOF > do_storage.sh
-parted -s /dev/sdb mklabel gpt mkpart pri ext3 2048s 60% set 1 lvm on
+#parted -s /dev/sdb mklabel gpt mkpart pri ext3 2048s 60% set 1 lvm on
 pvcreate /dev/sdb1
 vgcreate vg_ose /dev/sdb1
-lvcreate -y -nlv_openshift -l50%FREE vg_ose
+lvcreate -y -n lv_openshift -l50%FREE vg_ose
 mkfs.xfs -f /dev/mapper/vg_ose-lv_openshift
 echo "/dev/mapper/vg_ose-lv_openshift   /var/lib/openshift xfs defaults 1 2" >> /etc/fstab
 mkdir /var/lib/openshift

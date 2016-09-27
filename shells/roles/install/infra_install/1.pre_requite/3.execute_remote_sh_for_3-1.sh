@@ -26,7 +26,7 @@
 
 
 # Execute #2 script on each vm
-for HOST in `grep -v \# ${host_file_path}/${host_file} | awk '{ print $2 }'`; 
+for HOST in `grep -v \# ${host_file_path}/${host_file} | awk '{ print $1 }'`; 
 do 
 	ssh ${HOST} -t "/usr/bin/sudo ${ose_temp_dir}/${pre_requite_path}/3-1.change_ssh_conf_allow_root_user.sh" ; 
 done
