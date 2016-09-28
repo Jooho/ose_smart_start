@@ -188,7 +188,7 @@ fi
 
 
 
-. ${CONFIG_PATH}/custom/ose_config.sh.prd
-. ${CONFIG_PATH}/custom/nfs_config.sh.prd
-. ${CONFIG_PATH}/custom/pv_config.sh.prd
+. ${CONFIG_PATH}/custom/ose_config.sh.pnp
+. ${CONFIG_PATH}/custom/nfs_config.sh.pnp
+. ${CONFIG_PATH}/custom/pv_config.sh.pnp
 . ${CONFIG_PATH}/images_config.sh
