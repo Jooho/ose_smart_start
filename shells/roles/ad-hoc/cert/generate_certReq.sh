@@ -79,8 +79,8 @@ echo "         KEY:     $KEY"
 
 
 # This one liner is all you need
-#openssl req -new -newkey rsa:2048 -nodes -out ${CSR} -keyout ${KEY} -subj "/C=US/ST=District of Columbia/L=Washington/O=Red Hat/OU=Red Hat/CN=${COMMONNAME}"
-openssl req -new -newkey rsa:2048 -nodes -out ${CSR} -keyout ${KEY} -subj "/C=US/ST=District of Columbia/L=Washington/O=Administrative Office of the United States Courts/OU=Administrative Office of the United States Courts/CN=${COMMONNAME}"
+openssl req -new -newkey rsa:2048 -nodes -out ${CSR} -keyout ${KEY} -subj "/C=US/ST=District of Columbia/L=Washington/O=Red Hat/OU=Red Hat/CN=${COMMONNAME}"
+
 echo "If you wish to review your CSR:"
 echo "openssl req -text -noout -in ${CSR}"
 echo "please keep key/csr file in gitlab repository"
