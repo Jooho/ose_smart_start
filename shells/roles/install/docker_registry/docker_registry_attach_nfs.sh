@@ -21,7 +21,7 @@ elif [[ $(hostname) == ${ansible_operation_vm} ]] && [[ ${ansible_operation_vm} 
 #   ssh -q -t root@${ose_cli_operation_vm} "oc get -o yaml svc docker-registry |  sed 's/\(sessionAffinity:\s*\).*/\1ClientIP/' |  oc replace -f -"
 
 cat << EOF > ./docker_registry_attach_nfs_remote.sh
-oc volume deploymentconfigs/docker-registry --add --overwrite --name=registry-storage  --mount-path=/registry --source="{\"nfs\": { \"server\": \""${NFS_SERVER}"\",\"path\":      \"${NFS_MOUNT_POINT}/ose-registry\"}}"
+oc volume deploymentconfigs/docker-registry --add --overwrite --name=registry-storage  --mount-path=/registry --source="{\"nfs\": { \"server\": \""${NFS_SERVER}"\",\"path\":      \"${NFS_MOUNT_POINT}/${docker_registry_nfs_mount_point}\"}}"
 
     oc get -o yaml svc docker-registry |  sed 's/\(sessionAffinity:\s*\).*/\1ClientIP/' |  oc replace -f -
 

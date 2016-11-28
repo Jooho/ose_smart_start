@@ -47,6 +47,6 @@ for HOST in ${all_hosts}
 do
     if [[ $HOST =~ ${master_prefix} ]]; then
 	  echo "Restarting master server : $HOST"
-	  ssh -q root@$HOST "systemctl restart atomic-openshift-master-api"
+	  ssh -t -q ${con_user}@$HOST "sudo systemctl restart atomic-openshift-master-api"
     fi
 done

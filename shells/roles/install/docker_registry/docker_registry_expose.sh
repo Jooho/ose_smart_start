@@ -18,9 +18,9 @@ spec:
   host: ${docker_registry_route_url}
   to:
     kind: Service
-    name: docker-registry 
+    name: docker-registry
   tls:
-    termination: passthrough 
+    termination: passthrough
 
 EOF
 
@@ -39,18 +39,26 @@ spec:
   host: ${docker_registry_route_url}
   to:
     kind: Service
-    name: docker-registry 
+    name: docker-registry
   tls:
-    termination: passthrough 
+    termination: passthrough
 
 EOB
 
+. ${CONFIG_PATH}/ose_config.sh
 oc create -f ./docker_registry_route.yaml
 #rm -rf docker_registry_route.yaml
+
+CA=/etc/origin/master
+cp \$CA/ca.crt \${ose_temp_dir}/.
+chmod 777 \${ose_temp_dir}/ca.crt
+
 EOA
 
 scp ./docker_registry_expose_remote.sh  ${con_user}@${ose_cli_operation_vm}:${ose_temp_dir}/.
-ssh ${con_user}@${ose_cli_operation_vm} "sh ${ose_temp_dir}/docker_registry_expose_remote.sh"
+ssh -q -t ${con_user}@${ose_cli_operation_vm} "/usr/bin/sudo su - -c \"sh ${ose_temp_dir}/docker_registry_expose_remote.sh\""
+
+
 
 
 mv docker_registry_expose_remote.sh docker_registry_expose_remote.sh.bak
@@ -59,9 +67,6 @@ else
     echo "This script is designed to execute on master server"
 fi
 
-CA=/etc/origin/master
-
-scp ${ose_cli_operation_vm}:$CA/ca.crt ./
 
 for ip in ${all_ip};
 do

@@ -7,24 +7,36 @@
 
 . $CONFIG_PATH/ose_config.sh
 
+
+export docker_registry_url
+if [[ z${new_docker_registry_url} == z ]]
+then
+   docker_registry_url=registry.access.redhat.com
+else
+  docker_registry_url=$new_docker_registry_url
+fi
+
+
 if [[ $(hostname) == ${ose_cli_operation_vm} ]] && [[ ${ansible_operation_vm} == ${ose_cli_operation_vm} ]]
 then
 
-oadm registry --service-account=registry --config=/etc/origin/master/admin.kubeconfig --credentials=/etc/origin/master/openshift-registry.kubeconfig --images='registry.access.redhat.com/openshift3/ose-${component}:${version}' --selector="${infra_selector}"
+oadm registry --service-account=registry --config=/etc/origin/master/admin.kubeconfig --credentials=/etc/origin/master/openshift-registry.kubeconfig  --images="${docker_registry_url}"/openshift3/ose-'\${component}:\${version}' --selector="${infra_selector}"
 
 elif [[ $(hostname) == ${ansible_operation_vm} ]] && [[ ${ansible_operation_vm} != ${ose_cli_operation_vm} ]]; then
-#ssh -q -t root@${ose_cli_operation_vm} "oadm registry --service-account=registry --config=/etc/origin/master/admin.kubeconfig --credentials=/etc/origin/master/openshift-registry.kubeconfig --images='registry.access.redhat.com/openshift3/ose-${component}:${version}' --selector=\"${infra_selector}\""
+#ssh -q -t root@${ose_cli_operation_vm} "oadm registry --service-account=registry --config=/etc/origin/master/admin.kubeconfig --credentials=/etc/origin/master/openshift-registry.kubeconfig --images="${docker_registry_url}'/openshift3/ose-${component}:${version}'" --selector=\"${infra_selector}\""
 cat << EOF > ./docker_registry_remote.sh
 
-oadm registry --service-account=registry --config=/etc/origin/master/admin.kubeconfig --credentials=/etc/origin/master/openshift-registry.kubeconfig --images='registry.access.redhat.com/openshift3/ose-\${component}:\${version}' --selector="${infra_selector}"
+oadm registry --service-account=registry --config=/etc/origin/master/admin.kubeconfig --credentials=/etc/origin/master/openshift-registry.kubeconfig --images="${docker_registry_url}"/openshift3/ose-'\${component}:\${version}' --selector="${infra_selector}"
 
 EOF
 
 scp ./docker_registry_remote.sh ${con_user}@${ose_cli_operation_vm}:${ose_temp_dir}/.
-ssh ${con_user}@${ose_cli_operation_vm} "sh ${ose_temp_dir}/docker_registry_remote.sh"
+ssh -q -t ${con_user}@${ose_cli_operation_vm} "/usr/bin/sudo su - -c \"sh ${ose_temp_dir}/docker_registry_remote.sh\""
+
 
 mv docker_registry_remote.sh docker_registry_remote.sh.bak
 
 else
   echo "This script is designed to execute on master server"
 fi
+
