@@ -1,4 +1,4 @@
-#!/bin/bash
+#/bin/bash
 #
 #  Author: Jooho Lee(ljhiyh@gmail.com)
 #    Date: 2016.05.18
@@ -188,7 +188,7 @@ fi
 
 
 
-. ${CONFIG_PATH}/custom/ose_config.sh.pnp
-. ${CONFIG_PATH}/custom/nfs_config.sh.pnp
-. ${CONFIG_PATH}/custom/pv_config.sh.pnp
+. ${CONFIG_PATH}/custom/ose_config.sh.sbx
+. ${CONFIG_PATH}/custom/nfs_config.sh.sbx
+. ${CONFIG_PATH}/custom/pv_config.sh.sbx
 . ${CONFIG_PATH}/images_config.sh

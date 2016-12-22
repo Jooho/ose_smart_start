@@ -22,7 +22,7 @@ EOF
 
 
 export exist_pvc
-export created_pvc_script
+export created_pvc
 
 #Check if PVC_SCRIPT_PATH is exist. If exist, skip but don't exist, it will create the folder
 if [[ -e ${PVC_SCRIPT_PATH} ]]; then
@@ -49,6 +49,7 @@ do
 
  # pvc name
  VOL_NAME="${PVC_NAME_PREFIX}-${NFS_SERVER_TAG}-${LVM_VOL_NAME}"
+ VOL_NAME="$(echo $VOL_NAME|sed 's/_/-/g')"
  pvc_exist=$(oc get pvc |grep  ${VOL_NAME} |wc -l)
 
  if [[ $pvc_exist -eq 1 ]]; then
@@ -62,7 +63,7 @@ do
       check_pvc_is_created=$(oc get pvc|grep ${VOL_NAME}|wc -l)
 
       if [[ $check_pvc_is_created == 1 ]]; then
-        created_pvc_script=("${created_pvc[@]}" "${VOL_NAME}")
+        created_pvc=("${created_pvc[@]}" "${VOL_NAME}")
       else
         echo "There were issues to create pvc. Check user role"
       fi
@@ -79,7 +80,7 @@ echo "Exist pvc :"
 echo ${exist_pvc[@]}
 echo ""
 echo Created pvc  :
-echo ${created_pvc_script[@]}
+echo ${created_pvc[@]}
 echo ""
 echo ""
 oc get pvc
@@ -101,3 +102,4 @@ do
      echo "You should type one of y or n!!!"
    fi
 done
+

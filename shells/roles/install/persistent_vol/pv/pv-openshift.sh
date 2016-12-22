@@ -26,7 +26,7 @@ EOF
 #echo ${PV_RECLAIM_POLICY}
 
 export exist_pv
-export created_pv_script
+export created_pv
 
 #Check if PV_SCRIPT_PATH is exist. If exist, skip but don't exist, it will create the folder
 if [[ -e ${PV_SCRIPT_PATH} ]]; then
@@ -51,13 +51,14 @@ do
 
   # pv name
   PV_NAME="${PV_NAME_PREFIX}-${NFS_SERVER_TAG}-${LVM_VOL_NAME}"
+  PV_NAME=$(echo $PV_NAME|sed 's/_/-/g')
 
-echo ""
-echo "FORMATTED_LVM_SIZE : $FORMATTED_LVM_SIZE"
-echo "FORMATTED_LVM_RANGE : $FORMATTED_LVM_RANGE"
-echo "LVM_VOL_NAME: $LVM_VOL_NAME"
-echo "PV_NAME: $PV_NAME"
-#exit 0
+  echo ""
+  echo "FORMATTED_LVM_SIZE : $FORMATTED_LVM_SIZE"
+  echo "FORMATTED_LVM_RANGE : $FORMATTED_LVM_RANGE"
+  echo "LVM_VOL_NAME: $LVM_VOL_NAME"
+  echo "PV_NAME: $PV_NAME"
+ 
   pv_exist=$(oc get pv |grep ${VOL_NAME} |wc -l)
 
   if [[ $pv_exist == 1 ]]; then
@@ -71,7 +72,7 @@ echo "PV_NAME: $PV_NAME"
       check_pv_is_created=$(oc get pv|grep ${PV_NAME}|wc -l)
 
       if [[ $check_pv_is_created == 1 ]]; then
-        created_pv_script=("${created_pv[@]}" "${PV_NAME}")
+        created_pv=("${created_pv[@]}" "${PV_NAME}")
       else
         echo "There were issues to create pv. Check user role"
       fi
@@ -89,7 +90,7 @@ echo "Exist pv :"
 echo ${exist_pv[@]}
 echo ""
 echo Created pv  :
-echo ${created_pv_script[@]}
+echo ${created_pv[@]}
 echo ""
 echo ""
 oc get pv
